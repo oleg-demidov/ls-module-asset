@@ -28,11 +28,8 @@ namespace LS\Module\Asset;
  * @author oleg
  */
 class AssetJs {
-    //put your code here
-    /**
-     * @assert (0) == 0
-     * @param type $param
-     */
+    
+    
     public function load($param) {
         
     }

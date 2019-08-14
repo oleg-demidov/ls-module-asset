@@ -10,6 +10,11 @@ use PHPUnit\Framework\TestCase;
 class AssetJsTest extends TestCase{
     
     public function testLoad() {
-        $this->assertTrue(false);
+        
+        $asset = new LS\Module\Asset\AssetJs('https://sun9-23.userapi.com/c855532/v855532702/4edc/cHzMujuj8cU.jpg');
+        
+        $asset->load();
+        
+        $this->assertRegExp('/.+/', $asset->getContent());
     }
 }

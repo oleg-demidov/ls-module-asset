@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f734af3d52618577e5b87df84877f193",
+    "content-hash": "9f42672946ec5e9cbca1f26850d53e1d",
     "packages": [
         {
             "name": "kriswallsmith/assetic",
