@@ -9,5 +9,8 @@
     ],
     "require": {
         "kriswallsmith/assetic": "v1.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.5.14"
     }
 }
