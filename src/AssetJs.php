@@ -22,15 +22,31 @@
 
 namespace LS\Module\Asset;
 
+use Assetic\Asset\AssetFile;
 /**
  * Description of AssetJs
  *
  * @author oleg
  */
 class AssetJs {
+    /**
+     *
+     * @var type AssetInterface
+     */
+    protected $asset;
+
+
+    /**
+     * 
+     * @param string $sSourcePath
+     * @param array $aFilters
+     * @param array $aParams
+     */
+    public function __construct(string $sSourcePath, array $aFilters, array $aParams) {
+        $this->asset = 
+    }
     
-    
-    public function load($param) {
+    public function load(string $sSourcePath, array $aFilters, array $aParams) {
         
     }
 }
