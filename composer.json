@@ -1,0 +1,13 @@
+{
+    "name": "livestreet/asset",
+    "description": "Модуль ресурсов для Livetreet",
+    "authors": [
+        {
+            "name": "oleg",
+            "email": "end-fin@yandex.ru"
+        }
+    ],
+    "require": {
+        "kriswallsmith/assetic": "v1.4.0"
+    }
+}
