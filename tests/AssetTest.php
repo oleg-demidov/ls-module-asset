@@ -20,48 +20,59 @@
  *
  */
 
-use LS\Module\Asset\Asset;
+use LS\Module\Asset\Assets;
 
 /**
  * Description of AssetTest
  *
  * @author oleg
  */
-class AssetTest extends PHPUnit\Framework\TestCase{
+class AssetsTest extends PHPUnit\Framework\TestCase{
     //put your code here
     
     public $asset;
     
     public function setUp() {
         $config = [
+            'filters' => [
+                'css_min' => new Assetic\Filter\CssMinFilter(),
+                'js_min' => new Assetic\Filter\JSMinFilter()
+            ]
+        ];
+        $assets = [
             'assetJsRemote' => new AssetJs(
                 'https://code.jquery.com/jquery-3.4.1.js', 
                 [
-                    new Assetic\Filter\CssMinFilter
-                ],
-                [
-                    'remote' => true
+                    'remote' => true,
+                    'filters' => [
+                        'js_min'
+                    ]
                 ]
             ),
             'assetJsHTTP' => new AssetJs(
                 'https://code.jquery.com/jquery-3.4.1.js', 
                 [
-                    new Assetic\Filter\CssMinFilter
+                    'filters' => [
+                        'js_min'
+                    ]
                 ]
             ),
-            'assetJsLocal' => new AssetJs(__DIR__.'/assets/test.js', 
+            'assetJsLocal' => new AssetJs(
+                __DIR__.'/assets/test.js', 
                 [
-                    new \Assetic\Filter\JSMinFilter()
-                ], 
-                [
-                    Asset::DEPENDS_KEY => [
+                    Assets::DEPENDS_KEY => [
                         'assetJsHTTP'
+                    ],
+                    'filters' => [
+                        'js_min'
                     ]
                 ]
             )
         ];
         
-        $this->assets = new Asset($config);
+        $this->assets = new Assets($config);
+        
+        $this->assets->load($assets);
     }
 
     /**
