@@ -20,33 +20,21 @@
  *
  */
 
-namespace LS\Module\Asset;
-
-use Assetic\Asset\AssetFile;
 /**
- * Description of AssetJs
+ * Description of TestLoaderFile
  *
  * @author oleg
  */
-class AssetJs {
-    /**
-     *
-     * @var type AssetInterface
-     */
-    protected $asset;
-
-
-    /**
-     * 
-     * @param string $sSourcePath
-     * @param array $aFilters
-     * @param array $aParams
-     */
-    public function __construct(string $sSourcePath, array $aFilters, array $aParams) {
-        $this->asset = 
-    }
+class FileLoaderTest extends \PHPUnit\Framework\TestCase{
     
-    public function load(string $sSourcePath, array $aFilters, array $aParams) {
+    public function testLoad() {
+        
+        $loader = new \LS\Module\Asset\Loader\FileLoader(__DIR__.'/assets/test.js');
+        
+        $string = $loader->load();
+        
+        $this->assertStringStartsWith('\/\/Testscript', $string);
         
     }
+    
 }

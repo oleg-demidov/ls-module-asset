@@ -12,5 +12,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "6.5.14"
+    },
+    "autoload": {
+        "psr-4" : {
+            "LS\\Module\\Asset\\": "src/"
+        }
     }
 }

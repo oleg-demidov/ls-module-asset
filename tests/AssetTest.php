@@ -78,7 +78,7 @@ class AssetsTest extends PHPUnit\Framework\TestCase{
     /**
      * Тестирование удаленного ресурса js
      */
-    public function testAssetJsRemote() {
+    public function testAssetJsRemote() {   
         $this->assertInstanceOf(LS\Module\Asset\RemoteAsset::class, $this->assets->get('assetJsRemote'));
         
     }
