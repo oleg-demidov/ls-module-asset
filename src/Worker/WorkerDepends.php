@@ -20,29 +20,14 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace LS\Module\Asset\Worker;
 
 /**
- * Description of LoaderInterface
+ * Description of WorkerDepends
  *
  * @author oleg
  */
-interface LoaderInterface {
-    
-    /**
-     * 
-     */
-    public function load();
-    
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
-    
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+class WorkerDepends {
+
+    const DEPENDS_KEY = 'dependencies';
 }

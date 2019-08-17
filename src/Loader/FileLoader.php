@@ -22,6 +22,7 @@
 
 namespace LS\Module\Asset\Loader;
 use LS\Module\Asset\Loader\LoaderInterface;
+use \Assetic\Util\VarUtils;
 
 /**
  * Description of FileLoader
@@ -30,18 +31,29 @@ use LS\Module\Asset\Loader\LoaderInterface;
  */
 class FileLoader implements LoaderInterface{
     
-    protected $sPath;
-
-    public function __construct(string $sPath) {
-        $this->sPath = $sPath;
+    use LoaderTrait;
+    
+    public function __construct(string $sSourcePath) {
+        $this->sSourcePath = $sSourcePath;
     }
 
     public function load() {
-        return file_get_contents($this->sPath);
+
+        if (!is_file($this->sSourcePath)) {
+            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+        }
+                
+        return file_get_contents($this->sSourcePath);
     }
 
-    public function setPath(string $sPath) {
-        $this->sPath = $sPath;
+    public function getLastModified() {
+
+        if (!is_file($this->sSourcePath)) {
+            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+        }
+
+        return filemtime($this->sSourcePath);
     }
+
 
 }

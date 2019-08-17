@@ -1,7 +1,9 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+use Assetic\Filter\JSMinFilter;
+use LS\Module\Asset\Asset\JsAsset;
 use LS\Module\Asset\Loader\FileLoader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of AssetJsTest
@@ -14,9 +16,9 @@ class JsAssetTest extends TestCase{
     
     public function setUp() {
         $this->asset = new JsAsset(
-            new FileLoader(__DIR__.'/assets/test.js'),
+            new FileLoader(__DIR__.'/Loader/test.js'),
             [
-                new Assetic\Filter\JSMinFilter()
+                new JSMinFilter()
             ]            
         );
     }
@@ -25,6 +27,8 @@ class JsAssetTest extends TestCase{
                 
         $this->asset->load();
         
-        $this->assertStringStartsWith('\/\/Testscript', $asset->getContent());
+        $this->assertTrue($this->asset->getTargetPath() === __DIR__.'/Loader/test.js');
+        
+        $this->assertStringStartsWith('Testscript', $this->asset->getContent());
     }
 }

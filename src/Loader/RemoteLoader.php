@@ -21,28 +21,28 @@
  */
 
 namespace LS\Module\Asset\Loader;
+use LS\Module\Asset\Loader\LoaderInterface;
+use \Assetic\Util\VarUtils;
 
 /**
- * Description of LoaderInterface
+ * Description of FileLoader
  *
  * @author oleg
  */
-interface LoaderInterface {
+class RemoteLoader implements LoaderInterface{
     
-    /**
-     * 
-     */
-    public function load();
-    
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
-    
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+    use LoaderTrait;
+
+    public function __construct(string $sPath) {
+        $this->sSourcePath = $sPath;
+    }
+
+    public function load() {
+        return null;
+    }
+
+    public function getLastModified() {
+        return null;
+    }
+
 }

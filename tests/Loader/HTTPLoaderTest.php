@@ -20,29 +20,20 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace PHPUnit\Framework;
 
 /**
- * Description of LoaderInterface
+ * Description of HTTPLoaderTest
  *
  * @author oleg
  */
-interface LoaderInterface {
+class HTTPLoaderTest extends TestCase{
     
-    /**
-     * 
-     */
-    public function load();
-    
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
-    
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+    public function testLoad() {
+        $loader = new \LS\Module\Asset\Loader\HTTPLoader('https://code.jquery.com/jquery-3.3.1.slim.min.js');
+        
+        $string = $loader->load();
+        
+        $this->assertStringStartsWith($string, file_get_contents(__DIR__ . '/jquery-3.3.1.slim.min.js'));
+    }
 }

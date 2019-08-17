@@ -20,29 +20,33 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace LS\Module\Asset;
 
 /**
- * Description of LoaderInterface
+ * Description of FilterManager
  *
  * @author oleg
  */
-interface LoaderInterface {
+class FilterManager extends \Assetic\FilterManager{
     
     /**
+     * Расширение метода для работы с массивами
      * 
+     * @param mixed $alias
+     * @return type
      */
-    public function load();
-    
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
-    
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+    public function get($alias) {
+        
+        if(is_array($alias)){
+            $aResult = [];
+            
+            foreach ($alias as $key){
+                $aResult[] = parent::get($key);
+            }
+            
+            return $aResult;
+        }
+        
+        return parent::get($alias);
+    }
 }

@@ -20,29 +20,20 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace LS\Module\Asset\Asset;
 
 /**
- * Description of LoaderInterface
+ * Description of AssetTrait
  *
  * @author oleg
  */
-interface LoaderInterface {
+class AssetTrait {
     
-    /**
-     * 
-     */
-    public function load();
-    
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
-    
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+    public function getTargetPath() {
+        if(!$this->sTargetPath){
+            return $this->sSourcePath;
+        }
+        
+        return $this->sTargetPath;
+    }
 }

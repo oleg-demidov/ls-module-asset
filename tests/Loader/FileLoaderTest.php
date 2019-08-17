@@ -20,29 +20,22 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
-
 /**
- * Description of LoaderInterface
+ * Description of TestLoaderFile
  *
  * @author oleg
  */
-interface LoaderInterface {
+class FileLoaderTest extends \PHPUnit\Framework\TestCase{
     
-    /**
-     * 
-     */
-    public function load();
+    public function testLoad() {
+        
+        $loader = new \LS\Module\Asset\Loader\FileLoader(__DIR__.'/test.js');
+        
+        $string = $loader->load();
+        
+        $this->assertStringStartsWith('Testscript', $string);
+        
+    }
     
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
     
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
 }

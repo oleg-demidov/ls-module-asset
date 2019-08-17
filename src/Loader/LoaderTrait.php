@@ -23,26 +23,21 @@
 namespace LS\Module\Asset\Loader;
 
 /**
- * Description of LoaderInterface
+ * Description of LoaderTrait
  *
  * @author oleg
  */
-interface LoaderInterface {
+trait LoaderTrait{
     
-    /**
-     * 
-     */
-    public function load();
+    protected $sSourcePath;
     
-    /**
-     * 
-     * @param string $sSourcePath
-     */
-    public function setSourcePath(string $sSourcePath);
+    public function setSourcePath(string $sSourcePath) {
+        $this->sSourcePath = $sSourcePath;
+    }
     
-    
-    public function getSourcePath();
-    
-    public function getLastModified();
-   
+    public function getSourcePath() {
+        return $this->sSourcePath;
+    }
+ 
+
 }

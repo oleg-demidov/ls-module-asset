@@ -19,22 +19,13 @@
  * @author Oleg Demidov <end-fin@yandex.ru>
  *
  */
+namespace LS\Module\Asset;
 
 /**
- * Description of TestLoaderFile
+ * Description of ParserException
  *
  * @author oleg
  */
-class FileLoaderTest extends \PHPUnit\Framework\TestCase{
-    
-    public function testLoad() {
-        
-        $loader = new \LS\Module\Asset\Loader\FileLoader(__DIR__.'/assets/test.js');
-        
-        $string = $loader->load();
-        
-        $this->assertStringStartsWith('\/\/Testscript', $string);
-        
-    }
-    
+class ParserException extends \Exception{
+    //put your code here
 }
