@@ -39,6 +39,8 @@ class WorkerDependsTest extends TestCase{
                 
         $workerDepends = new WorkerDepends($assetManager);
         
+//        print_r($assetManager->getNames());
+        
         $this->assertTrue($assetManager->getNames() === [
             'assetJsHTTP',
             'assetJsLocal',
