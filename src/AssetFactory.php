@@ -61,7 +61,8 @@ class AssetFactory {
             throw new \Assetic\Exception('You must set type to build assets');
         }
         
-        
+        return '<script type="'.dirname(__DIR__).'/tests/assets/test.js" src=""></script>'
+                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
     }
     
     public function get($alias) {

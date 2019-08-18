@@ -21,8 +21,8 @@
  */
 
 use Assetic\Asset\AssetInterface;
-use Assetic\Filter\FilterInterface;
 use LS\Module\Asset\AssetFactory;
+use LS\Module\Asset\ConfigParser;
 use LS\Module\Asset\Worker\WorkerDepends;
 use PHPUnit\Framework\TestCase;
 
@@ -36,6 +36,9 @@ class AssetFactoryTest extends TestCase{
     
     public $factory;
     
+    protected $parseTest;
+
+
     public function setUp() {
         $config = [
             'merge' => true,
@@ -44,19 +47,45 @@ class AssetFactoryTest extends TestCase{
         
         $this->factory = new AssetFactory($config);
         
-        $parseTest = new ConfigParserTest();   
+        $this->parseTest = new ConfigParserTest();   
         
-        $this->factory->setAssetManager($parseTest->getAssetManager());
+        $this->factory->setAssetManager($this->parseTest->getAssetManager());
         
-        $this->factory->setFilterManager($parseTest->getFilterManager());
+        $this->factory->setFilterManager($this->parseTest->getFilterManager());
         
     }
    
     public function testBuildHTML() {
+        $assets = [
+            'js' => [
+                'assetJsLocal' => array(
+                    'file' => __DIR__.'/assets/test.js', 
+                    WorkerDepends::DEPENDS_KEY => [
+                        'assetJsHTTP'
+                    ],
+                    'filters' => [
+                        'js_min'
+                    ]
+                ),
+                'assetJsRemote' => [
+                    'file' => 'https://code.jquery.com/jquery-3.4.1.js',
+                    'loader' => "remote",
+                    'merge' => false,
+                    'filters' => [
+                        'js_min'
+                    ]
+                ],                
+                
+            ],
+        ];
+                
+        $parser = new ConfigParser($this->parseTest->getFilterManager());        
+        
+        $this->factory->setAssetManager($parser->parse($assets));
+        
         $sHTML = $this->factory->buildHTML('js');
         
         $needString = '<script type="'.__DIR__.'/assets/test.js" src=""></script>'
-                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>'
                 . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
         
         $this->assertTrue($needString === $sHTML);

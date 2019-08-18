@@ -20,18 +20,32 @@
  *
  */
 
-namespace LS\Module\Asset\Worker;
+namespace PHPUnit\Framework;
+
+use Assetic\Asset\FileAsset;
+use LS\Module\Asset\AssetManager;
 
 /**
- * Description of WorkerDepends
+ * Description of AssetManagerTest
  *
  * @author oleg
  */
-class WorkerDepends {
+class AssetManagerTest extends TestCase{
+  
+    protected $assets;
 
-    const DEPENDS_KEY = 'dependencies';
+
+    public function setUp() {
+        $this->assets = new AssetManager();
+    }
     
-    public function work(LS\Module\Asset\AssetManager $assets) {
+    public function testRemove() {
+        $this->assets->set('test', new FileAsset(''));
         
+        $this->assertTrue($this->assets->has('test'));
+        
+        $this->assets->remove('test');
+        
+        $this->assertFalse($this->assets->has('test'));
     }
 }

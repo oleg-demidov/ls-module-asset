@@ -16,7 +16,7 @@ class JsAssetTest extends TestCase{
     
     public function setUp() {
         $this->asset = new JsAsset(
-            new FileLoader(__DIR__.'/Loader/test.js'),
+            new FileLoader(dirname(__DIR__).'/Loader/test.js'),
             [
                 new JSMinFilter()
             ]            
@@ -27,7 +27,7 @@ class JsAssetTest extends TestCase{
                 
         $this->asset->load();
         
-        $this->assertTrue($this->asset->getTargetPath() === __DIR__.'/Loader/test.js');
+        $this->assertTrue($this->asset->getTargetPath() === dirname(__DIR__).'/Loader/test.js');
         
         $this->assertStringStartsWith('Testscript', $this->asset->getContent());
     }

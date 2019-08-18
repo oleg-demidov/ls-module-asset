@@ -23,15 +23,16 @@
 namespace LS\Module\Asset\Worker;
 
 /**
- * Description of WorkerDepends
+ * Description of WorkerInterfase
  *
  * @author oleg
  */
-class WorkerDepends {
-
-    const DEPENDS_KEY = 'dependencies';
-    
-    public function work(LS\Module\Asset\AssetManager $assets) {
-        
-    }
+interface WorkerInterfase {
+    /**
+     * Метод принимает менеджер ресурсов по ссылке
+     * производит какую то работу над менеджером
+     * 
+     * @param \LS\Module\Asset\AssetManager $assets
+     */
+    public function work(\LS\Module\Asset\AssetManager $assets) ;
 }
