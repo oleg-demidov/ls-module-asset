@@ -23,7 +23,7 @@
 namespace LS\Module\Asset;
 
 use Assetic\FilterManager;
-use LS\Module\Asset\Loader\HTTPLoader;
+use LS\Module\Asset\Loader\HttpLoader;
 use LS\Module\Asset\ParserException;
 
 /**
@@ -81,7 +81,7 @@ class ConfigParser {
         }
         
         if (false !== strpos($sPath, '://') || 0 === strpos($sPath, '//')) {
-            return new HTTPLoader($sPath);
+            return new HttpLoader($sPath);
         }
         
         $sClass = 'LS\\Module\\Asset\\Loader\\' . ucfirst($aAsset['loader']) . 'Loader';

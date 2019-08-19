@@ -27,7 +27,7 @@ namespace LS\Module\Asset\Loader;
  *
  * @author oleg
  */
-class HTTPLoader implements LoaderInterface{
+class HttpLoader implements LoaderInterface{
     
     use LoaderTrait;
 

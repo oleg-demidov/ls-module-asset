@@ -30,7 +30,7 @@ namespace PHPUnit\Framework;
 class HTTPLoaderTest extends TestCase{
     
     public function testLoad() {
-        $loader = new \LS\Module\Asset\Loader\HTTPLoader('https://code.jquery.com/jquery-3.3.1.slim.min.js');
+        $loader = new \LS\Module\Asset\Loader\HttpLoader('https://code.jquery.com/jquery-3.3.1.slim.min.js');
         
         $string = $loader->load();
         

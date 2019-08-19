@@ -38,7 +38,7 @@ class AssetFactory {
     
     protected $assets;
     
-    protected $workers;
+    protected $workers = [];
 
     public function __construct($aParams) {
         $this->aParams = $aParams;
@@ -64,7 +64,19 @@ class AssetFactory {
     }
     
     public function createAsset(array $aInputs) {
+        $this->applyWorkers();
         
+        $assets = new \Assetic\Asset\AssetCollection();
+        
+        foreach ($aInputs as $alias) {
+            if(!$this->assets->has($alias)){
+                throw new \OutOfBoundsException("In manager not asset `{$alias}`");
+            }
+            
+            $assets->add($this->assets->get($alias));
+        }
+        
+        return $assets;
     }
     
     public function get($alias) {
@@ -73,5 +85,11 @@ class AssetFactory {
     
     public function addWorker(Worker\WorkerInterfase $worker) {
         $this->workers[] = $worker;
+    }
+    
+    public function applyWorkers() { 
+        foreach ($this->workers as $worker) {            
+            $this->assets = $worker->work($this->assets);
+        }
     }
 }

@@ -61,15 +61,14 @@ class AssetFactoryTest extends TestCase{
                 'assetJsLocal' => array(
                     'file' => __DIR__.'/assets/test.js', 
                     WorkerDepends::DEPENDS_KEY => [
-                        'assetJsHTTP'
+                        'assetJsRemote'
                     ],
                     'filters' => [
                         'js_min'
                     ]
                 ),
-                'assetJsRemote' => [
+                'assetJsHttp' => [
                     'file' => 'https://code.jquery.com/jquery-3.4.1.js',
-                    'loader' => "remote",
                     'merge' => false,
                     'filters' => [
                         'js_min'
@@ -114,8 +113,8 @@ class AssetFactoryTest extends TestCase{
         foreach ($assets as $asset) {
             $aAssets[] = $asset;
         }
-        
-        $this->assertTrue($aAssets[0]->getParams()['name'] === 'assetJsLocal');
+
+        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
     }
     
     public function testCreateAssetDepend() {
@@ -130,7 +129,12 @@ class AssetFactoryTest extends TestCase{
             $aAssets[] = $asset;
         }
         
-        $this->assertTrue($aAssets[0]->getParams()['name'] === 'assetJsLocal');
-        $this->assertTrue($aAssets[1]->getParams()['name'] === 'assetJsHTTP');
+        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
+        
+        $this->assertArrayHasKey(1, $aAssets); 
+        
+        if(isset($aAssets[1])){
+            $this->assertTrue($aAssets[1]->getParams()['file'] === 'https://code.jquery.com/jquery-3.4.1.js');
+        }
     }
 }
