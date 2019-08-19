@@ -23,7 +23,6 @@
 namespace LS\Module\Asset;
 
 use Assetic\FilterManager;
-use LS\Module\Asset\Loader\FileLoader;
 use LS\Module\Asset\Loader\HTTPLoader;
 use LS\Module\Asset\ParserException;
 
@@ -51,7 +50,7 @@ class ConfigParser {
                 throw new ParserException("Class {$sClass} not found");
             }
             
-            $assetManager = new \Assetic\AssetManager();
+            $assetManager = new AssetManager();
             
             foreach ($aAssets as $sName => $mAsset) {
                 $asset = new $sClass(

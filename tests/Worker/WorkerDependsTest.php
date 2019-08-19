@@ -37,11 +37,11 @@ class WorkerDependsTest extends TestCase{
         
         $assetManager = (new ConfigParserTest())->getAssetManager();   
                 
-        $workerDepends = new WorkerDepends($assetManager);
+        $workerDepends = new WorkerDepends();
         
-//        print_r($assetManager->getNames());
+        $dependsManager = $workerDepends->work($assetManager);
         
-        $this->assertTrue($assetManager->getNames() === [
+        $this->assertTrue($dependsManager->getNames() === [
             'assetJsHTTP',
             'assetJsLocal',
             'assetJsRemote']);

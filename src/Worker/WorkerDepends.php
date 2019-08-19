@@ -46,7 +46,7 @@ class WorkerDepends implements WorkerInterfase{
             $this->addWithDepends($sName, $assets);
         }
         
-        $assets = $this->dependsAssets;
+        return $this->dependsAssets;
     }
     /**
      * 
@@ -63,13 +63,13 @@ class WorkerDepends implements WorkerInterfase{
         
         $aParams = $asset->getParams();
         
-        if(isset($aParams[self::DEPENDS_KEY])){           
+        if(isset($aParams[self::DEPENDS_KEY])){    
             foreach ($aParams[self::DEPENDS_KEY] as $sNameDepend) {
                 $this->addWithDepends($sNameDepend, $assets);
             }
             
         }
-        
+
         $this->dependsAssets->set($sName, $assets->get($sName));
 
     }

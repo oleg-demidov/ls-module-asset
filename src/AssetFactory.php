@@ -37,7 +37,8 @@ class AssetFactory {
     protected $aParams;
     
     protected $assets;
-
+    
+    protected $workers;
 
     public function __construct($aParams) {
         $this->aParams = $aParams;
@@ -57,15 +58,20 @@ class AssetFactory {
     }
     
     public function buildHTML(string $sType) {
-        if(!is_string($sType)){
-            throw new \Assetic\Exception('You must set type to build assets');
-        }
-        
+                
         return '<script type="'.dirname(__DIR__).'/tests/assets/test.js" src=""></script>'
                 . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
     }
     
+    public function createAsset(array $aInputs) {
+        
+    }
+    
     public function get($alias) {
         return $this->assets->get($alias);
+    }
+    
+    public function addWorker(Worker\WorkerInterfase $worker) {
+        $this->workers[] = $worker;
     }
 }

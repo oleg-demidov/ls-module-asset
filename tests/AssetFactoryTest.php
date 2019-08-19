@@ -104,4 +104,33 @@ class AssetFactoryTest extends TestCase{
     public function testAssetJsLocal() {
         $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsLocal'));
     }
+    
+    public function testCreateAsset() {
+        $assets = $this->factory->createAsset([
+            'assetJsLocal'
+        ]);
+        
+        $aAssets = [];
+        foreach ($assets as $asset) {
+            $aAssets[] = $asset;
+        }
+        
+        $this->assertTrue($aAssets[0]->getParams()['name'] === 'assetJsLocal');
+    }
+    
+    public function testCreateAssetDepend() {
+        $this->factory->addWorker(new WorkerDepends());
+        
+        $assets = $this->factory->createAsset([
+            'assetJsLocal'
+        ]);
+        
+        $aAssets = [];
+        foreach ($assets as $asset) {
+            $aAssets[] = $asset;
+        }
+        
+        $this->assertTrue($aAssets[0]->getParams()['name'] === 'assetJsLocal');
+        $this->assertTrue($aAssets[1]->getParams()['name'] === 'assetJsHTTP');
+    }
 }

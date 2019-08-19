@@ -72,14 +72,7 @@ class ConfigParserTest extends TestCase{
                 
             ],
         ];
-        
-//        $am = new AssetManager();
-//        $am->set('assetJsLocal', new \LS\Module\Asset\JsAsset(
-//                new \LS\Module\Asset\Loader\FileLoader(__DIR__.'/assets/test.js'),
-//                [new JSMinFilter()],
-//                
-//            ));
-        
+                
         $parser = new ConfigParser($this->getFilterManager());        
         
         return $parser->parse($assets);
@@ -95,5 +88,26 @@ class ConfigParserTest extends TestCase{
         foreach ($am->getNames() as $aName) {
             $this->assertInstanceOf(AssetInterface::class, $am->get($aName));
         }
+        
+        $this->assertTrue($am->get('assetJsLocal')->getParams() === [
+            
+            "file" => "/home/oleg/Develop/pdd-fend/vendor/livestreet/asset/tests/assets/test.js",
+            "dependencies" => 
+                [
+                    'assetJsHTTP'
+                ],
+
+            "filters" => 
+                [
+                    'js_min'
+                ],
+
+            "loader" => "file",
+            "merge" => true,
+            "browser" => null,
+            "plugin" => null,
+            "attr" => [ ]
+
+        ]);
     }
 }
