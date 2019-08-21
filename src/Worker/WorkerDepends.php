@@ -31,46 +31,49 @@ class WorkerDepends implements WorkerInterfase{
 
     const DEPENDS_KEY = 'dependencies';
     
-    protected $dependsAssets;
+    protected $assets;
 
-    public function __construct() {
-        $this->dependsAssets = new \LS\Module\Asset\AssetManager();
+    public function __construct(\LS\Module\Asset\AssetManager $assets) {
+        $this->assets = $assets;
     }
     /**
      * 
      * @param \LS\Module\Asset\AssetManager $assets
      */
-    public function work(\LS\Module\Asset\AssetManager $assets) {
+    public function work(\LS\Module\Asset\AssetManager $workingAssets) {
         
-        foreach ($assets->getNames() as $sName) {
-            $this->addWithDepends($sName, $assets);
+        $resultAssets = new \LS\Module\Asset\AssetManager();
+                
+        foreach ($workingAssets->getNames() as $sName) {
+            $this->addWithDepends($sName, $resultAssets);
         }
         
-        return $this->dependsAssets;
+        
+        return $resultAssets;
     }
     /**
      * 
      * @param string $sName
      * @param \LS\Module\Asset\AssetManager $assets
      */
-    protected function addWithDepends(string $sName, \LS\Module\Asset\AssetManager $assets ) {
+    protected function addWithDepends(string $sName, \LS\Module\Asset\AssetManager $resultAssets ) {
         
-        if($this->dependsAssets->has($sName)){
+        if($resultAssets->has($sName)){
             return;
         }
         
-        $asset = $assets->get($sName);
+        $asset = $this->assets->get($sName);
         
         $aParams = $asset->getParams();
         
         if(isset($aParams[self::DEPENDS_KEY])){    
             foreach ($aParams[self::DEPENDS_KEY] as $sNameDepend) {
-                $this->addWithDepends($sNameDepend, $assets);
+                $this->addWithDepends($sNameDepend, $resultAssets);
             }
             
         }
 
-        $this->dependsAssets->set($sName, $assets->get($sName));
+        $resultAssets->set($sName, $asset);
 
     }
 }

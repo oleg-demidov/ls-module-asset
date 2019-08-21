@@ -64,6 +64,7 @@ class AssetFactory {
     }
     
     public function createAsset(array $aInputs) {
+        
         $this->applyWorkers();
         
         $assets = new \Assetic\Asset\AssetCollection();
@@ -87,9 +88,18 @@ class AssetFactory {
         $this->workers[] = $worker;
     }
     
-    public function applyWorkers() { 
-        foreach ($this->workers as $worker) {            
-            $this->assets = $worker->work($this->assets);
+    public function applyWorkers(AssetManager $assets) { 
+        
+        print_r($this->assets->getNames());
+        
+        foreach ($this->workers as $worker) {        
+            $this->assets = $worker->work($assets);
         }
+        
+        print_r($this->assets->getNames());
+    }
+    
+    public function getAssetManager() {
+        return $this->assets;
     }
 }

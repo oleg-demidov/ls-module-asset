@@ -37,7 +37,7 @@ class WorkerDependsTest extends TestCase{
         
         $assetManager = (new ConfigParserTest())->getAssetManager();   
                 
-        $workerDepends = new WorkerDepends();
+        $workerDepends = new WorkerDepends($assetManager);
         
         $dependsManager = $workerDepends->work($assetManager);
         
