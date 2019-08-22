@@ -41,6 +41,8 @@ class ConfigParser {
     
     public function parse($aConfig) {
         
+        $assetManager = new AssetManager();
+            
         foreach ($aConfig as $sType => $aAssets) { 
             $this->normalizeAssetConfig($aAssets);
             
@@ -50,11 +52,10 @@ class ConfigParser {
                 throw new ParserException("Class {$sClass} not found");
             }
             
-            $assetManager = new AssetManager();
             
             foreach ($aAssets as $sName => $mAsset) {
                 $asset = new $sClass(
-                    $this->getLoaderFromAssetConfig($sClass, $mAsset),
+                    $this->getLoaderFromAssetConfig($mAsset),
                     $this->filters->get($mAsset['filters']),
                     $mAsset
                 );
@@ -68,20 +69,19 @@ class ConfigParser {
     
     /**
      * 
-     * @param string $sPath
      * @param array $aAsset
      * 
      * @return \LS\Module\Asset\Loader\LoaderInterface
      * 
      * @throws ParserException
      */
-    public static function getLoaderFromAssetConfig(string $sPath, array $aAsset) {
+    public static function getLoaderFromAssetConfig(array $aAsset) {
         if(!$aAsset['loader']){
             return null;
         }
         
-        if (false !== strpos($sPath, '://') || 0 === strpos($sPath, '//')) {
-            return new HttpLoader($sPath);
+        if (false !== strpos($aAsset['file'], '://') || 0 === strpos($aAsset['file'], '//')) {
+            return new HttpLoader($aAsset['file']);
         }
         
         $sClass = 'LS\\Module\\Asset\\Loader\\' . ucfirst($aAsset['loader']) . 'Loader';
@@ -89,8 +89,8 @@ class ConfigParser {
         if(!class_exists($sClass)){
             throw new ParserException("Class loader {$sClass} not found");
         }
-        
-        return new $sClass($sPath);
+
+        return new $sClass($aAsset['file']);
     }
     
     /**

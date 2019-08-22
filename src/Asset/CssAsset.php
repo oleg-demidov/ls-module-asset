@@ -23,17 +23,10 @@
 namespace LS\Module\Asset\Asset;
 
 /**
- * Description of AssetTrait
+ * Description of AssetJs
  *
  * @author oleg
  */
-class AssetTrait {
-    
-    public function getTargetPath() {
-        if(!$this->sTargetPath){
-            return $this->sSourcePath;
-        }
-        
-        return $this->sTargetPath;
-    }
+class CssAsset extends AbstractAsset{
+
 }

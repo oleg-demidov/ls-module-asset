@@ -22,46 +22,12 @@
 
 namespace LS\Module\Asset\Asset;
 
-use \Assetic\Asset\BaseAsset;
-use \LS\Module\Asset\Loader\LoaderInterface;
 /**
  * Description of AssetJs
  *
  * @author oleg
  */
-class JsAsset extends BaseAsset{
+class JsAsset extends AbstractAsset{
 
-    protected $loader;
-    
-    protected $aParams;
-    
-
-    /**
-     * 
-     * @param LoaderInterface $loader
-     * @param array $aFilters
-     * @param array $aParams
-     * @param array $aVars
-     */
-    public function __construct(LoaderInterface $loader, array $aFilters, array $aParams = [], array $aVars = []) {
-        $this->loader = $loader;
-        $this->aParams = $aParams;
-        
-        parent::__construct($aFilters, null, null, $aVars);
-    }
-
-    public function getLastModified() {
-        return null;
-    }
-
-    public function load(\Assetic\Filter\FilterInterface $additionalFilter = null) {
-        $this->doLoad($this->loader->load(), $additionalFilter);
-        
-        $this->setTargetPath($this->loader->getSourcePath());
-    }
-    
-    public function getParams() {
-        return $this->aParams;
-    }
 
 }

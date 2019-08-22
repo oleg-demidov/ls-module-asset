@@ -50,7 +50,8 @@ class WorkerDependsTest extends TestCase{
         $this->assertTrue($dependsManager->getNames() === [
             'assetJsHTTP',
             'assetJsLocal',
-            'assetJsRemote']);
+            'assetJsRemote', 
+            'assetCssLocal']);
         
     }
 }

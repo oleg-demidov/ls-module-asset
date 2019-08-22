@@ -39,6 +39,7 @@ class ConfigParserTest extends TestCase{
         $filters = new FilterManager();
         
         $filters->set('js_min', new JSMinFilter());
+        $filters->set('css_min', new Assetic\Filter\CssMinFilter());
         
         return $filters;
     }
@@ -71,6 +72,14 @@ class ConfigParserTest extends TestCase{
                 ),
                 
             ],
+            'css' => [
+                'assetCssLocal' => array(
+                    'file' => __DIR__.'/Loader/test.css',
+                    'filters' => [
+                        'css_min'
+                    ]
+                ),
+            ]
         ];
                 
         $parser = new ConfigParser($this->getFilterManager());        
@@ -81,9 +90,11 @@ class ConfigParserTest extends TestCase{
     public function testParse() {
         $am = $this->getAssetManager();
         
-        $this->assertInstanceOf(AssetManager::class, $am);
+        $this->assertInstanceOf(AssetManager::class, $am);      
         
-        $this->assertTrue(['assetJsLocal', 'assetJsRemote', 'assetJsHTTP'] === $am->getNames());
+        //print_r($am);
+        
+        $this->assertTrue(['assetJsLocal', 'assetJsRemote', 'assetJsHTTP', 'assetCssLocal'] === $am->getNames());
         
         foreach ($am->getNames() as $aName) {
             $this->assertInstanceOf(AssetInterface::class, $am->get($aName));

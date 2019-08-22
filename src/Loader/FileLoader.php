@@ -40,7 +40,7 @@ class FileLoader implements LoaderInterface{
     public function load() {
 
         if (!is_file($this->sSourcePath)) {
-            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+            throw new \UnderflowException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
         }
                 
         return file_get_contents($this->sSourcePath);
@@ -49,7 +49,7 @@ class FileLoader implements LoaderInterface{
     public function getLastModified() {
 
         if (!is_file($this->sSourcePath)) {
-            throw new \RuntimeException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+            throw new \UnderflowException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
         }
 
         return filemtime($this->sSourcePath);

@@ -40,7 +40,7 @@ class AssetFactoryTest extends TestCase{
          $assets = [
             'js' => [
                 'assetJsLocal' => array(
-                    'file' => __DIR__.'/assets/test.js', 
+                    'file' => __DIR__.'/Loader/test.js', 
                     WorkerDepends::DEPENDS_KEY => [
                         'assetJsHTTP'
                     ],
@@ -61,14 +61,22 @@ class AssetFactoryTest extends TestCase{
                     'filters' => [
                         'js_min'
                     ]
-                ),
-                
+                )                
             ],
+            'css' => [
+                'assetCssLocal' => array(
+                    'file' => __DIR__.'/Loader/test.css',
+                    'filters' => [
+                        'css_min'
+                    ]
+                ),
+            ]
         ];
         
         $filters = new \LS\Module\Asset\FilterManager();
         
-        $filters->set('js_min', new \Assetic\Filter\JSMinFilter());         
+        $filters->set('js_min', new \Assetic\Filter\JSMinFilter()); 
+        $filters->set('css_min', new \Assetic\Filter\CssMinFilter());
                 
         $parser = new ConfigParser($filters);
         
@@ -123,7 +131,7 @@ class AssetFactoryTest extends TestCase{
             $aAssets[] = $asset;
         }
 
-        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
+        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/Loader/test.js');
     }
     
     public function testCreateAssetDepend() {
@@ -145,7 +153,27 @@ class AssetFactoryTest extends TestCase{
         $this->assertArrayHasKey(1, $aAssets);         
         
         if(isset($aAssets[1])){
-            $this->assertTrue($aAssets[1]->getParams()['file'] === __DIR__.'/assets/test.js');
+            $this->assertTrue($aAssets[1]->getParams()['file'] === __DIR__.'/Loader/test.js');
         }
+    }
+    
+    
+    public function testCreateAssetFull() {
+        $factory = clone $this->factory;
+        
+        $factory->addWorker(new WorkerDepends());
+        
+        $assets = $factory->createAsset();   
+//        foreach ($assets as $asset) {
+//            $asset->load();
+//        }
+        print_r($assets); 
+        
+        $aAssets = [];        
+        foreach ($assets as $asset) {
+            $aAssets[] = $asset;
+        }
+
+        $this->assertTrue(count($aAssets) == 4);
     }
 }

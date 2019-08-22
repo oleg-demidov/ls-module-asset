@@ -58,33 +58,49 @@ class AssetFactory {
     }
     
     public function buildHTML(string $sType) {
+        
+        $assets = $this->createAsset();
+        
+        foreach ($assets as $item) {
+            echo PHP_EOL, get_class($item);
+        }
                 
-        return '<script type="'.dirname(__DIR__).'/tests/assets/test.js" src=""></script>'
-                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
+        return '';
     }
     
-    public function createAsset(array $aInputs) {
+    public function createAsset(array $aInputs = []) {
         
         if(!$this->assets){
             throw new \OutOfRangeException("Asset manager must be set in factory");
         }
         
-        $assetManagerInputs = new AssetManager();
+        if($aInputs){
+            $assetManagerInputs = new AssetManager();
+        }else{
+            $assetManagerInputs = clone $this->assets;
+        }
+        
         
         foreach ($aInputs as $alias) {
             if(!$this->assets->has($alias)){
                 throw new \OutOfBoundsException("In manager not asset `{$alias}`");
             }
             
-            $assetManagerInputs->set($alias, $this->assets->get($alias));
+            $asset = $this->assets->get($alias);
+            
+            $assetManagerInputs->set($alias, $asset);
         }
         
         $assetManagerInputs = $this->applyWorkers($assetManagerInputs);
-                
+                        
         $assets = new \Assetic\Asset\AssetCollection();
         
         foreach ($assetManagerInputs->getNames() as $alias) {
-            $assets->add($assetManagerInputs->get($alias));
+            $asset = $assetManagerInputs->get($alias);
+            
+            $asset->load();
+            
+            $assets->add($asset);
         }
         
         return $assets;
