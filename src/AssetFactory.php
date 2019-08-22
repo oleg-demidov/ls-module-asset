@@ -65,16 +65,26 @@ class AssetFactory {
     
     public function createAsset(array $aInputs) {
         
-        $this->applyWorkers();
+        if(!$this->assets){
+            throw new \OutOfRangeException("Asset manager must be set in factory");
+        }
         
-        $assets = new \Assetic\Asset\AssetCollection();
+        $assetManagerInputs = new AssetManager();
         
         foreach ($aInputs as $alias) {
             if(!$this->assets->has($alias)){
                 throw new \OutOfBoundsException("In manager not asset `{$alias}`");
             }
             
-            $assets->add($this->assets->get($alias));
+            $assetManagerInputs->set($alias, $this->assets->get($alias));
+        }
+        
+        $assetManagerInputs = $this->applyWorkers($assetManagerInputs);
+                
+        $assets = new \Assetic\Asset\AssetCollection();
+        
+        foreach ($assetManagerInputs->getNames() as $alias) {
+            $assets->add($assetManagerInputs->get($alias));
         }
         
         return $assets;
@@ -88,15 +98,14 @@ class AssetFactory {
         $this->workers[] = $worker;
     }
     
-    public function applyWorkers(AssetManager $assets) { 
-        
-        print_r($this->assets->getNames());
+    public function applyWorkers(AssetManager $assetManagerInputs) { 
         
         foreach ($this->workers as $worker) {        
-            $this->assets = $worker->work($assets);
+            $assetManagerInputs = $worker->work($assetManagerInputs, $this);
         }
         
-        print_r($this->assets->getNames());
+        return $assetManagerInputs;        
+        
     }
     
     public function getAssetManager() {

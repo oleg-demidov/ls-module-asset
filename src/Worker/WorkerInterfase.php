@@ -34,5 +34,5 @@ interface WorkerInterfase {
      * 
      * @param \LS\Module\Asset\AssetManager $assets
      */
-    public function work(\LS\Module\Asset\AssetManager $assets) ;
+    public function work(\LS\Module\Asset\AssetManager $workingAssets, \LS\Module\Asset\AssetFactory $factory) ;
 }

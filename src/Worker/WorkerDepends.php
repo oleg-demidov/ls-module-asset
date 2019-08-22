@@ -30,17 +30,15 @@ namespace LS\Module\Asset\Worker;
 class WorkerDepends implements WorkerInterfase{
 
     const DEPENDS_KEY = 'dependencies';
-    
-    protected $assets;
-
-    public function __construct(\LS\Module\Asset\AssetManager $assets) {
-        $this->assets = $assets;
-    }
+   
+    protected $factory;
     /**
      * 
      * @param \LS\Module\Asset\AssetManager $assets
      */
-    public function work(\LS\Module\Asset\AssetManager $workingAssets) {
+    public function work(\LS\Module\Asset\AssetManager $workingAssets,\LS\Module\Asset\AssetFactory $factory) {
+        
+        $this->factory = $factory;
         
         $resultAssets = new \LS\Module\Asset\AssetManager();
                 
@@ -62,7 +60,7 @@ class WorkerDepends implements WorkerInterfase{
             return;
         }
         
-        $asset = $this->assets->get($sName);
+        $asset = $this->factory->getAssetManager()->get($sName);
         
         $aParams = $asset->getParams();
         

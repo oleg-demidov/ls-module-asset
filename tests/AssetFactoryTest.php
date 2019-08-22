@@ -85,47 +85,53 @@ class AssetFactoryTest extends TestCase{
         
     }
    
-//    public function testBuildHTML() {
-//                
-//        $sHTML = $this->factory->buildHTML('js');
-//        
-//        $needString = '<script type="'.__DIR__.'/assets/test.js" src=""></script>'
-//                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
-//        
-//        $this->assertTrue($needString === $sHTML);
-//    }
-//    /**
-//     * Тестирование удаленного ресурса js
-//     */
-//    public function testAssetJsRemote() {   
-//        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsRemote'));
-//    }
-//    
-//    public function testAssetJsHTTP() {
-//        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsHTTP'));
-//    }
-//    
-//    public function testAssetJsLocal() {
-//        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsLocal'));
-//    }
+    public function testBuildHTML() {
+        
+        $factory = clone $this->factory;
+                
+        $sHTML = $factory->buildHTML('js');
+        
+        $needString = '<script type="'.__DIR__.'/assets/test.js" src=""></script>'
+                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
+        
+        $this->assertTrue($needString === $sHTML);
+    }
+    /**
+     * Тестирование удаленного ресурса js
+     */
+    public function testAssetJsRemote() {   
+        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsRemote'));
+    }
     
-//    public function testCreateAsset() {
-//        $assets = $this->factory->createAsset([
-//            'assetJsLocal'
-//        ]);
-//        
-//        $aAssets = [];
-//        foreach ($assets as $asset) {
-//            $aAssets[] = $asset;
-//        }
-//
-//        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
-//    }
+    public function testAssetJsHTTP() {
+        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsHTTP'));
+    }
+    
+    public function testAssetJsLocal() {
+        $this->assertInstanceOf(AssetInterface::class, $this->factory->get('assetJsLocal'));
+    }
+    
+    public function testCreateAsset() {
+        $factory = clone $this->factory;
+        
+        $assets = $factory->createAsset([
+            'assetJsLocal'
+        ]);
+        
+        $aAssets = [];
+        foreach ($assets as $asset) {
+            $aAssets[] = $asset;
+        }
+
+        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
+    }
     
     public function testCreateAssetDepend() {
-        $this->factory->addWorker(new WorkerDepends($this->factory->getAssetManager()));
+        $factory = clone $this->factory;
         
-        $assets = $this->factory->createAsset([
+        $factory->addWorker(new WorkerDepends());
+        
+        $assets = $factory->createAsset([
             'assetJsLocal'
         ]);
         
@@ -134,12 +140,12 @@ class AssetFactoryTest extends TestCase{
             $aAssets[] = $asset;
         }
 
-        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/assets/test.js');
+        $this->assertTrue($aAssets[0]->getParams()['file'] === 'https://code.jquery.com/jquery-3.4.1.js');
         
-        $this->assertArrayHasKey(1, $aAssets); 
+        $this->assertArrayHasKey(1, $aAssets);         
         
         if(isset($aAssets[1])){
-            $this->assertTrue($aAssets[1]->getParams()['file'] === 'https://code.jquery.com/jquery-3.4.1.js');
+            $this->assertTrue($aAssets[1]->getParams()['file'] === __DIR__.'/assets/test.js');
         }
     }
 }

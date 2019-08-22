@@ -34,12 +34,18 @@ use PHPUnit\Framework\TestCase;
 class WorkerDependsTest extends TestCase{
     
     public function testWork() {
+        $factory = new \LS\Module\Asset\AssetFactory([
+            'merge' => true,
+            'filters' => []
+        ]);
         
-        $assetManager = (new ConfigParserTest())->getAssetManager();   
+        $assetManager = (new ConfigParserTest())->getAssetManager();  
+        
+        $factory->setAssetManager(clone $assetManager);
                 
-        $workerDepends = new WorkerDepends($assetManager);
+        $workerDepends = new WorkerDepends();
         
-        $dependsManager = $workerDepends->work($assetManager);
+        $dependsManager = $workerDepends->work($assetManager, $factory);
         
         $this->assertTrue($dependsManager->getNames() === [
             'assetJsHTTP',
