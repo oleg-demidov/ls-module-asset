@@ -63,5 +63,9 @@ class AbstractAsset extends BaseAsset{
     public function getParams() {
         return $this->aParams;
     }
+    
+    public function getParamsOne($key) {
+        return isset($this->aParams[$key]) ? $this->aParams[$key] : null;
+    }
 
 }

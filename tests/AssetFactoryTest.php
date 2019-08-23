@@ -126,12 +126,7 @@ class AssetFactoryTest extends TestCase{
             'assetJsLocal'
         ]);
         
-        $aAssets = [];
-        foreach ($assets as $asset) {
-            $aAssets[] = $asset;
-        }
-
-        $this->assertTrue($aAssets[0]->getParams()['file'] === __DIR__.'/Loader/test.js');
+        $this->assertTrue(in_array('assetJsLocal', $assets->getNames()));
     }
     
     public function testCreateAssetDepend() {
@@ -148,13 +143,8 @@ class AssetFactoryTest extends TestCase{
             $aAssets[] = $asset;
         }
 
-        $this->assertTrue($aAssets[0]->getParams()['file'] === 'https://code.jquery.com/jquery-3.4.1.js');
+        $this->assertTrue(['assetJsHTTP', 'assetJsLocal'] === $assets->getNames());
         
-        $this->assertArrayHasKey(1, $aAssets);         
-        
-        if(isset($aAssets[1])){
-            $this->assertTrue($aAssets[1]->getParams()['file'] === __DIR__.'/Loader/test.js');
-        }
     }
     
     
@@ -164,16 +154,7 @@ class AssetFactoryTest extends TestCase{
         $factory->addWorker(new WorkerDepends());
         
         $assets = $factory->createAsset();   
-//        foreach ($assets as $asset) {
-//            $asset->load();
-//        }
-        print_r($assets); 
         
-        $aAssets = [];        
-        foreach ($assets as $asset) {
-            $aAssets[] = $asset;
-        }
-
-        $this->assertTrue(count($aAssets) == 4);
+        $this->assertTrue(count($assets->getNames()) == 4);
     }
 }

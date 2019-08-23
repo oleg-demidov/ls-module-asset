@@ -43,6 +43,7 @@ class AssetFactory {
     public function __construct($aParams) {
         $this->aParams = $aParams;
         
+        $this->parser = new ConfigParser();
     }
         
     public function setFilterManager(FilterManager $filters) {
@@ -92,20 +93,10 @@ class AssetFactory {
         }
         
         $assetManagerInputs = $this->applyWorkers($assetManagerInputs);
-                        
-        $assets = new \Assetic\Asset\AssetCollection();
-        
-        foreach ($assetManagerInputs->getNames() as $alias) {
-            $asset = $assetManagerInputs->get($alias);
-            
-            $asset->load();
-            
-            $assets->add($asset);
-        }
-        
-        return $assets;
+                
+        return $assetManagerInputs;
     }
-    
+        
     public function get($alias) {
         return $this->assets->get($alias);
     }

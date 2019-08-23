@@ -35,7 +35,7 @@ class ConfigParser {
     
     protected $filters;
     
-    public function __construct(FilterManager $filters) {
+    public function __construct(FilterManager $filters = null) {
         $this->filters = $filters;
     }
     
@@ -49,7 +49,7 @@ class ConfigParser {
             $sClass = "LS\\Module\\Asset\\Asset\\" . ucfirst($sType) . 'Asset';
             
             if(!class_exists($sClass)){
-                throw new ParserException("Class {$sClass} not found");
+                throw new \OutOfBoundsException("Class {$sClass} not found");
             }
             
             
@@ -87,7 +87,7 @@ class ConfigParser {
         $sClass = 'LS\\Module\\Asset\\Loader\\' . ucfirst($aAsset['loader']) . 'Loader';
         
         if(!class_exists($sClass)){
-            throw new ParserException("Class loader {$sClass} not found");
+            throw new \OutOfBoundsException("Class loader {$sClass} not found");
         }
 
         return new $sClass($aAsset['file']);
