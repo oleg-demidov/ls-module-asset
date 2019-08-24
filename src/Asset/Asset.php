@@ -29,13 +29,14 @@ use \LS\Module\Asset\Loader\LoaderInterface;
  *
  * @author oleg
  */
-class AbstractAsset extends BaseAsset{
+class Asset extends BaseAsset{
 
+    use AssetTrait;
+    
     protected $loader;
     
     protected $aParams;
     
-
     /**
      * 
      * @param LoaderInterface $loader
@@ -47,7 +48,7 @@ class AbstractAsset extends BaseAsset{
         $this->loader = $loader;
         $this->aParams = $aParams;
         
-        parent::__construct($aFilters, null, null, $aVars);
+        parent::__construct($aFilters, null, $this->loader->getSourcePath(), $aVars);
     }
 
     public function getLastModified() {
@@ -67,5 +68,5 @@ class AbstractAsset extends BaseAsset{
     public function getParamsOne($key) {
         return isset($this->aParams[$key]) ? $this->aParams[$key] : null;
     }
-
+    
 }

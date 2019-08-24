@@ -22,6 +22,10 @@
 
 namespace LS\Module\Asset\Worker;
 
+use LS\Module\Asset\Asset\AssetCollection;
+use LS\Module\Asset\AssetFactory;
+use LS\Module\Asset\AssetManager;
+
 /**
  * Description of WorkerMerge
  *
@@ -29,12 +33,12 @@ namespace LS\Module\Asset\Worker;
  */
 class WorkerMerge implements WorkerInterfase{
     //put your code here
-    public function work(\LS\Module\Asset\AssetManager $workingAssets, \LS\Module\Asset\AssetFactory $factory) {
-        $resultAssets = new \LS\Module\Asset\AssetManager();
+    public function work(AssetManager $workingAssets, AssetFactory $factory) {
+        $resultAssets = new AssetManager();
         
         $sNameMerge = '';
         
-        $assetMerge = new \Assetic\Asset\AssetCollection();
+        $assetMerge = new AssetCollection();
         
         foreach ($workingAssets->getNames() as $name) {
             $asset = $workingAssets->get($name);
@@ -48,16 +52,20 @@ class WorkerMerge implements WorkerInterfase{
                 continue;
             }
             
+            $assetMerge->setType($asset->getType());
+            
             $resultAssets->set($sNameMerge, $assetMerge);
 
             $sNameMerge = '';
 
-            $assetMerge = new \Assetic\Asset\AssetCollection();
+            $assetMerge = new AssetCollection();
 
             $resultAssets->set($name, $asset);
         }
         
         if($sNameMerge !== ''){
+            $assetMerge->setType($asset->getType());
+            
             $resultAssets->set($sNameMerge, $assetMerge);
         }
         

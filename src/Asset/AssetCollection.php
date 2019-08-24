@@ -20,23 +20,17 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace LS\Module\Asset\Asset;
 
 /**
- * Description of LoaderTrait
+ * Description of AssetCollection
  *
  * @author oleg
  */
-trait LoaderTrait{
-    
-    protected $sSourcePath;
-    
-    public function setSourcePath(string $sSourcePath) {
-        $this->sSourcePath = $sSourcePath;
-    }
+class AssetCollection extends \Assetic\Asset\AssetCollection{
+    use AssetTrait;
     
     public function getSourcePath() {
-        return $this->sSourcePath;
+        return current($this->all())->getSourcePath();
     }
-
 }

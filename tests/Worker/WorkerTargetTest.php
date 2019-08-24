@@ -20,23 +20,15 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
-
 /**
- * Description of LoaderTrait
+ * Description of WorkerTargetTest
  *
  * @author oleg
  */
-trait LoaderTrait{
+class WorkerTargetTest extends \PHPUnit\Framework\TestCase{
     
-    protected $sSourcePath;
     
-    public function setSourcePath(string $sSourcePath) {
-        $this->sSourcePath = $sSourcePath;
+    public function testWork() {
+        
     }
-    
-    public function getSourcePath() {
-        return $this->sSourcePath;
-    }
-
 }

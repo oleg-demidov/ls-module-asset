@@ -31,13 +31,17 @@ class WorkerTargetPath implements WorkerInterfase{
 
     public function work(\LS\Module\Asset\AssetManager $workingAssets, \LS\Module\Asset\AssetFactory $factory) {
         
-        $sAssetKey = $factory->generateAssetName($workingAssets, $factory);
-        
         foreach ($workingAssets->getNames() as $name) {
             $asset = $workingAssets->get($name);
             
-            $asset->setTargetPath($sAssetKey . '/' . (new \ReflectionClass($asset))->getShortName() . '/' . $name);
+            $asset->setTargetPath(
+                $asset->getType() . '/' . 
+                $name . '.' . 
+                pathinfo($asset->getSourcePath(), PATHINFO_EXTENSION)
+            );
         }
+        
+        return $workingAssets;
     }
 
 }

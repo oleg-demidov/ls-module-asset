@@ -50,7 +50,6 @@ class AssetFactory {
         
         $this->aParams = $aParams;
         
-        $this->parser = new ConfigParser();
     }
         
     public function setFilterManager(FilterManager $filters) {
@@ -83,7 +82,7 @@ class AssetFactory {
         
         $aResult = [];
         
-        foreach ($aSortAssets as $sType => $assets) {
+        foreach ($aSortAssets as $sType => $assets) {            
             $aResult[$sType] = $this->createAsset($aSortAssets[$sType]->getNames());
         }
         
@@ -95,13 +94,12 @@ class AssetFactory {
         
         foreach ($assets->getNames() as $sName) {
             $asset = $assets->get($sName);
-            $sClassName = (new ReflectionClass($asset))->getShortName();
             
-            if(!isset($aSort[$sClassName])){
-                $aSort[$sClassName] = new AssetManager();
+            if(!isset($aSort[$asset->getType()])){
+                $aSort[$asset->getType()] = new AssetManager();
             }
             
-            $aSort[$sClassName]->set($sName, $asset);
+            $aSort[$asset->getType()]->set($sName, $asset);
         }
         
         return $aSort;
@@ -169,9 +167,9 @@ class AssetFactory {
         return $this->aParams;
     }
     
-    public function generateAssetName($workingAssets, $factory)
+    public function generateAssetKey( $factory)
     {
-        return substr(sha1(serialize($workingAssets).serialize($factory)), 0, 7);
+        return substr(sha1(serialize($factory)), 0, 7);
     }
 
 }

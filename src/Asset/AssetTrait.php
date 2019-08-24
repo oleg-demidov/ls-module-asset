@@ -20,23 +20,22 @@
  *
  */
 
-namespace LS\Module\Asset\Loader;
+namespace LS\Module\Asset\Asset;
 
 /**
  * Description of LoaderTrait
  *
  * @author oleg
  */
-trait LoaderTrait{
+trait AssetTrait{
     
-    protected $sSourcePath;
+    protected $type;
     
-    public function setSourcePath(string $sSourcePath) {
-        $this->sSourcePath = $sSourcePath;
+    public function setType(string $type) {
+        $this->type = $type;
     }
     
-    public function getSourcePath() {
-        return $this->sSourcePath;
+    public function getType() {
+        return $this->type;
     }
-
 }

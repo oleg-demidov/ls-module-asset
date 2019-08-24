@@ -23,8 +23,12 @@
 namespace LS\Module\Asset;
 
 use Assetic\FilterManager;
+use LS\Module\Asset\Asset\Asset;
 use LS\Module\Asset\Loader\HttpLoader;
+use LS\Module\Asset\Loader\LoaderInterface;
 use LS\Module\Asset\ParserException;
+use LS\Module\Asset\Worker\WorkerDepends;
+use OutOfBoundsException;
 
 /**
  * Description of ConfigParser
@@ -44,21 +48,18 @@ class ConfigParser {
         $assetManager = new AssetManager();
             
         foreach ($aConfig as $sType => $aAssets) { 
+            
             $this->normalizeAssetConfig($aAssets);
             
-            $sClass = "LS\\Module\\Asset\\Asset\\" . ucfirst($sType) . 'Asset';
-            
-            if(!class_exists($sClass)){
-                throw new \OutOfBoundsException("Class {$sClass} not found");
-            }
-            
-            
             foreach ($aAssets as $sName => $mAsset) {
-                $asset = new $sClass(
+                
+                $asset = new Asset(
                     $this->getLoaderFromAssetConfig($mAsset),
                     $this->filters->get($mAsset['filters']),
                     $mAsset
                 );
+                
+                $asset->setType($sType);
                 
                 $assetManager->set($sName, $asset);
             }
@@ -71,7 +72,7 @@ class ConfigParser {
      * 
      * @param array $aAsset
      * 
-     * @return \LS\Module\Asset\Loader\LoaderInterface
+     * @return LoaderInterface
      * 
      * @throws ParserException
      */
@@ -87,7 +88,7 @@ class ConfigParser {
         $sClass = 'LS\\Module\\Asset\\Loader\\' . ucfirst($aAsset['loader']) . 'Loader';
         
         if(!class_exists($sClass)){
-            throw new \OutOfBoundsException("Class loader {$sClass} not found");
+            throw new OutOfBoundsException("Class loader {$sClass} not found");
         }
 
         return new $sClass($aAsset['file']);
@@ -101,6 +102,7 @@ class ConfigParser {
      */
     public static function normalizeAssetConfig(array &$aAssets){
 
+        
         foreach ($aAssets as $sName => $mAsset) {
             $aAssetNew = $mAsset;
             $sNameNew = $sName;
@@ -121,15 +123,16 @@ class ConfigParser {
 
             unset($aAssets[$sName]);            
             
-            $aAssetNew['file'] = (isset($aAssetNew['file']) ) ? $aAssetNew['file'] : null;
+            $aAssetNew['file'] = (isset($aAssetNew['file']) ) ? $aAssetNew['file'] : '';
+            $aAssetNew['filters'] = (isset($aAssetNew['filters']) ) ? $aAssetNew['filters'] : [];
             $aAssetNew['loader'] = (isset($aAssetNew['loader']) ) ? $aAssetNew['loader'] : "file";
             $aAssetNew['merge'] = (isset($aAssetNew['merge']) and !$aAssetNew['merge']) ? false : true;
             $aAssetNew['browser'] = (isset($aAssetNew['browser']) and $aAssetNew['browser']) ? $aAssetNew['browser'] : null;
             $aAssetNew['plugin'] = (isset($aAssetNew['plugin']) and $aAssetNew['plugin']) ? $aAssetNew['plugin'] : null;
             $aAssetNew['attr'] = (isset($aAssetNew['attr']) and is_array($aAssetNew['attr'])) ? $aAssetNew['attr'] : [];
-            $aAssetNew[Worker\WorkerDepends::DEPENDS_KEY] = 
-                    (isset($aAssetNew[Worker\WorkerDepends::DEPENDS_KEY]))
-                    ? $aAssetNew[Worker\WorkerDepends::DEPENDS_KEY] 
+            $aAssetNew[WorkerDepends::DEPENDS_KEY] = 
+                    (isset($aAssetNew[WorkerDepends::DEPENDS_KEY]))
+                    ? $aAssetNew[WorkerDepends::DEPENDS_KEY] 
                     : [];
             
             $aAssets[$sNameNew] = $aAssetNew;
