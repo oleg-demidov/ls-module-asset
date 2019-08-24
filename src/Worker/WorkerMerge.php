@@ -33,23 +33,35 @@ class WorkerMerge implements WorkerInterfase{
         $resultAssets = new \LS\Module\Asset\AssetManager();
         
         $sNameMerge = '';
-        foreach ($workingAssets as $name) {
+        
+        $assetMerge = new \Assetic\Asset\AssetCollection();
+        
+        foreach ($workingAssets->getNames() as $name) {
+            $asset = $workingAssets->get($name);
             
-            if(!$asset->getParamsOne('merge')){
-                $resultAssets->set($sNameMerge, clone $assetMerge);
+            if($asset->getParamsOne('merge')){
                 
-                $assetMerge = new \Assetic\Asset\AssetCollection();
+                $assetMerge->add($asset);
                 
-                $resultAssets->set($name, $workingAssets->get($name));
+                $sNameMerge .= $name;
+                
                 continue;
             }
             
-            $sNameMerge .= $name;
-            
-            $assetMerge->add($workingAssets->get($name));
-            
-            
+            $resultAssets->set($sNameMerge, $assetMerge);
+
+            $sNameMerge = '';
+
+            $assetMerge = new \Assetic\Asset\AssetCollection();
+
+            $resultAssets->set($name, $asset);
         }
+        
+        if($sNameMerge !== ''){
+            $resultAssets->set($sNameMerge, $assetMerge);
+        }
+        
+        return $resultAssets;
     }
 
 }

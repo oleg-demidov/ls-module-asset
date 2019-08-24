@@ -22,8 +22,11 @@
 
 namespace LS\Module\Asset;
 
-use Assetic\Filter\FilterInterface;
 use Assetic\FilterManager;
+use LS\Module\Asset\Worker\WorkerInterfase;
+use OutOfBoundsException;
+use OutOfRangeException;
+use ReflectionClass;
 
 /**
  * Description of ModuleAsset
@@ -36,11 +39,15 @@ class AssetFactory {
     
     protected $aParams;
     
+    /**
+     * @var AssetManager
+     */
     protected $assets;
     
     protected $workers = [];
 
-    public function __construct($aParams) {
+    public function __construct(array $aParams = []) {
+        
         $this->aParams = $aParams;
         
         $this->parser = new ConfigParser();
@@ -54,25 +61,62 @@ class AssetFactory {
         return $this->filters;
     }
     
-    public function setAssetManager(\Assetic\AssetManager $assets) {
+    
+    public function setAssetManager(AssetManager $assets) {
         $this->assets = $assets;
     }
     
-    public function buildHTML(string $sType) {
+    public function createAssetType(string $sType) {
         
-        $assets = $this->createAsset();
+        $aSortAssets = $this->sortByTypes($this->assets);
         
-        foreach ($assets as $item) {
-            echo PHP_EOL, get_class($item);
+        if(!isset($aSortAssets[$sType])){
+            throw new \OutOfRangeException("Type {$sType} not isset in assets types");
         }
-                
-        return '';
+        
+        return $this->createAsset($aSortAssets[$sType]->getNames());
+        
     }
     
+    public function createAssetSorted() {
+        $aSortAssets = $this->sortByTypes($this->assets);
+        
+        $aResult = [];
+        
+        foreach ($aSortAssets as $sType => $assets) {
+            $aResult[$sType] = $this->createAsset($aSortAssets[$sType]->getNames());
+        }
+        
+        return $aResult;
+    }
+       
+    protected function sortByTypes(AssetManager $assets) {
+        $aSort = [];
+        
+        foreach ($assets->getNames() as $sName) {
+            $asset = $assets->get($sName);
+            $sClassName = (new ReflectionClass($asset))->getShortName();
+            
+            if(!isset($aSort[$sClassName])){
+                $aSort[$sClassName] = new AssetManager();
+            }
+            
+            $aSort[$sClassName]->set($sName, $asset);
+        }
+        
+        return $aSort;
+    }
+    /**
+     * 
+     * @param array $aInputs
+     * @return AssetManager
+     * @throws OutOfRangeException
+     * @throws OutOfBoundsException
+     */
     public function createAsset(array $aInputs = []) {
         
         if(!$this->assets){
-            throw new \OutOfRangeException("Asset manager must be set in factory");
+            throw new OutOfRangeException("Asset manager must be set in factory");
         }
         
         if($aInputs){
@@ -81,10 +125,9 @@ class AssetFactory {
             $assetManagerInputs = clone $this->assets;
         }
         
-        
         foreach ($aInputs as $alias) {
             if(!$this->assets->has($alias)){
-                throw new \OutOfBoundsException("In manager not asset `{$alias}`");
+                throw new OutOfBoundsException("In manager not asset `{$alias}`");
             }
             
             $asset = $this->assets->get($alias);
@@ -101,7 +144,7 @@ class AssetFactory {
         return $this->assets->get($alias);
     }
     
-    public function addWorker(Worker\WorkerInterfase $worker) {
+    public function addWorker(WorkerInterfase $worker) {
         $this->workers[] = $worker;
     }
     
@@ -114,8 +157,21 @@ class AssetFactory {
         return $assetManagerInputs;        
         
     }
-    
+    /**
+     * 
+     * @return AssetManager
+     */
     public function getAssetManager() {
         return $this->assets;
     }
+    
+    public function getParams() {
+        return $this->aParams;
+    }
+    
+    public function generateAssetName($workingAssets, $factory)
+    {
+        return substr(sha1(serialize($workingAssets).serialize($factory)), 0, 7);
+    }
+
 }

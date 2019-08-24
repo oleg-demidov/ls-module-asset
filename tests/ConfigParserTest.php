@@ -92,8 +92,6 @@ class ConfigParserTest extends TestCase{
         
         $this->assertInstanceOf(AssetManager::class, $am);      
         
-        //print_r($am);
-        
         $this->assertTrue(['assetJsLocal', 'assetJsRemote', 'assetJsHTTP', 'assetCssLocal'] === $am->getNames());
         
         foreach ($am->getNames() as $aName) {

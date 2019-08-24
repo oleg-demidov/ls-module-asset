@@ -93,17 +93,6 @@ class AssetFactoryTest extends TestCase{
         
     }
    
-    public function testBuildHTML() {
-        
-        $factory = clone $this->factory;
-                
-        $sHTML = $factory->buildHTML('js');
-        
-        $needString = '<script type="'.__DIR__.'/assets/test.js" src=""></script>'
-                . '<script type="https://code.jquery.com/jquery-3.4.1.js" src=""></script>';
-        
-        $this->assertTrue($needString === $sHTML);
-    }
     /**
      * Тестирование удаленного ресурса js
      */
@@ -138,23 +127,25 @@ class AssetFactoryTest extends TestCase{
             'assetJsLocal'
         ]);
         
-        $aAssets = [];        
-        foreach ($assets as $asset) {
-            $aAssets[] = $asset;
-        }
-
         $this->assertTrue(['assetJsHTTP', 'assetJsLocal'] === $assets->getNames());
         
     }
     
-    
-    public function testCreateAssetFull() {
+    public function testCreateAssetType() {
+        
         $factory = clone $this->factory;
+                
+        $assets = $factory->createAssetType('JsAsset');
         
-        $factory->addWorker(new WorkerDepends());
+        $this->assertTrue([ 'assetJsLocal', 'assetJsRemote', 'assetJsHTTP'] === $assets->getNames());
+    }
+    
+    public function testCreateAssetTypeCss() {
         
-        $assets = $factory->createAsset();   
+        $factory = clone $this->factory;
+                
+        $assets = $factory->createAssetType('CssAsset');
         
-        $this->assertTrue(count($assets->getNames()) == 4);
+        $this->assertTrue([ 'assetCssLocal'] === $assets->getNames());
     }
 }
