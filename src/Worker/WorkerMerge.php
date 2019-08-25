@@ -32,7 +32,7 @@ use LS\Module\Asset\AssetManager;
  * @author oleg
  */
 class WorkerMerge implements WorkerInterfase{
-    //put your code here
+
     public function work(AssetManager $workingAssets, AssetFactory $factory) {
         $resultAssets = new AssetManager();
         
@@ -43,9 +43,11 @@ class WorkerMerge implements WorkerInterfase{
         foreach ($workingAssets->getNames() as $name) {
             $asset = $workingAssets->get($name);
             
-            if($asset->getParamsOne('merge')){
+            if($asset->getParamsOne('merge') and $assetMerge->suitableForMerging($asset)){
                 
                 $assetMerge->add($asset);
+                
+                $assetMerge->setParams(['attr' => $asset->getParams()['attr']]);
                 
                 $sNameMerge .= $name;
                 
@@ -71,5 +73,6 @@ class WorkerMerge implements WorkerInterfase{
         
         return $resultAssets;
     }
+    
 
 }

@@ -29,8 +29,7 @@ namespace LS\Module\Asset\Worker;
  */
 class WorkerDepends implements WorkerInterfase{
 
-    const DEPENDS_KEY = 'dependencies';
-   
+ 
     protected $factory;
     /**
      * 
@@ -64,8 +63,8 @@ class WorkerDepends implements WorkerInterfase{
         
         $aParams = $asset->getParams();
         
-        if(isset($aParams[self::DEPENDS_KEY])){    
-            foreach ($aParams[self::DEPENDS_KEY] as $sNameDepend) {
+        if(isset($aParams['depends'])){    
+            foreach ($aParams['depends'] as $sNameDepend) {
                 $this->addWithDepends($sNameDepend, $resultAssets);
             }
             

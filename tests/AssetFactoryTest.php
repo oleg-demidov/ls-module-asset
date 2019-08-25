@@ -41,7 +41,7 @@ class AssetFactoryTest extends TestCase{
             'js' => [
                 'assetJsLocal' => array(
                     'file' => __DIR__.'/Loader/test.js', 
-                    WorkerDepends::DEPENDS_KEY => [
+                    'depends' => [
                         'assetJsHTTP'
                     ],
                     'filters' => [

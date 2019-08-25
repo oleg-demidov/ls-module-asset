@@ -35,7 +35,6 @@ class Asset extends BaseAsset{
     
     protected $loader;
     
-    protected $aParams;
     
     /**
      * 
@@ -61,12 +60,5 @@ class Asset extends BaseAsset{
         $this->setTargetPath($this->loader->getSourcePath());
     }
     
-    public function getParams() {
-        return $this->aParams;
-    }
-    
-    public function getParamsOne($key) {
-        return isset($this->aParams[$key]) ? $this->aParams[$key] : null;
-    }
     
 }

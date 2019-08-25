@@ -47,7 +47,7 @@ class BuilderJsHTML implements BuilderInterface{
             $element->setAttribute($name, $value);
         }
         
-        $element->setAttribute('src', $this->sTargetDir . $asset->getTargetPath());
+        $element->setAttribute('src', $this->sTargetDir . '/' . $asset->getTargetPath());
         
         $this->document->appendChild($element);
     }

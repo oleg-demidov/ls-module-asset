@@ -49,7 +49,7 @@ class ConfigParserTest extends TestCase{
             'js' => [
                 'assetJsLocal' => array(
                     'file' => __DIR__.'/assets/test.js', 
-                    WorkerDepends::DEPENDS_KEY => [
+                    'depends' => [
                         'assetJsHTTP'
                     ],
                     'filters' => [
@@ -98,14 +98,13 @@ class ConfigParserTest extends TestCase{
             $this->assertInstanceOf(AssetInterface::class, $am->get($aName));
         }
         
-        $this->assertTrue($am->get('assetJsLocal')->getParams() === [
+        $aTetParams = [
             
             "file" => "/home/oleg/Develop/pdd-fend/vendor/livestreet/asset/tests/assets/test.js",
-            "dependencies" => 
+            "depends" => 
                 [
                     'assetJsHTTP'
                 ],
-
             "filters" => 
                 [
                     'js_min'
@@ -113,10 +112,10 @@ class ConfigParserTest extends TestCase{
 
             "loader" => "file",
             "merge" => true,
-            "browser" => null,
-            "plugin" => null,
             "attr" => [ ]
-
-        ]);
+        ];
+        
+        $this->assertTrue($am->get('assetJsLocal')->getParams() === $aTetParams, 
+                print_r($am->get('assetJsLocal')->getParams(), true) . print_r($aTetParams, true));
     }
 }

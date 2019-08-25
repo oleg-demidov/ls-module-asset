@@ -49,7 +49,7 @@ class BuilderCssHTML implements BuilderInterface{
         
         $element->setAttribute('rel', 'stylesheet');
         
-        $element->setAttribute('href', $this->sTargetDir . $asset->getTargetPath());
+        $element->setAttribute('href', $this->sTargetDir . '/' . $asset->getTargetPath());
         
         $this->document->appendChild($element);
     }

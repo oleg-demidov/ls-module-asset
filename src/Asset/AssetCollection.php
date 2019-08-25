@@ -33,4 +33,16 @@ class AssetCollection extends \Assetic\Asset\AssetCollection{
     public function getSourcePath() {
         return current($this->all())->getSourcePath();
     }
+    
+    public function suitableForMerging(\Assetic\Asset\AssetInterface $asset) {
+        if(!count($this->all())){
+            return true;
+        }
+        
+        if($asset->getParamsOne('attr') !== $this->getParamsOne('attr')){
+            return false;
+        }
+        
+        return true;
+    }
 }

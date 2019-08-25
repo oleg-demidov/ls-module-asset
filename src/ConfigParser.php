@@ -127,13 +127,8 @@ class ConfigParser {
             $aAssetNew['filters'] = (isset($aAssetNew['filters']) ) ? $aAssetNew['filters'] : [];
             $aAssetNew['loader'] = (isset($aAssetNew['loader']) ) ? $aAssetNew['loader'] : "file";
             $aAssetNew['merge'] = (isset($aAssetNew['merge']) and !$aAssetNew['merge']) ? false : true;
-            $aAssetNew['browser'] = (isset($aAssetNew['browser']) and $aAssetNew['browser']) ? $aAssetNew['browser'] : null;
-            $aAssetNew['plugin'] = (isset($aAssetNew['plugin']) and $aAssetNew['plugin']) ? $aAssetNew['plugin'] : null;
             $aAssetNew['attr'] = (isset($aAssetNew['attr']) and is_array($aAssetNew['attr'])) ? $aAssetNew['attr'] : [];
-            $aAssetNew[WorkerDepends::DEPENDS_KEY] = 
-                    (isset($aAssetNew[WorkerDepends::DEPENDS_KEY]))
-                    ? $aAssetNew[WorkerDepends::DEPENDS_KEY] 
-                    : [];
+            $aAssetNew['depends'] = (isset($aAssetNew['depends'])) ? $aAssetNew['depends']  : [];
             
             $aAssets[$sNameNew] = $aAssetNew;
         }

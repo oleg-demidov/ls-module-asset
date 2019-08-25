@@ -31,11 +31,25 @@ trait AssetTrait{
     
     protected $type;
     
+    protected $aParams = [];
+    
     public function setType(string $type) {
         $this->type = $type;
     }
     
     public function getType() {
         return $this->type;
+    }
+    
+    public function setParams(array $aParams) {
+        $this->aParams = $aParams;
+    }
+    
+    public function getParams() {
+        return $this->aParams;
+    }
+    
+    public function getParamsOne($key) {
+        return isset($this->aParams[$key]) ? $this->aParams[$key] : null;
     }
 }
