@@ -20,7 +20,7 @@
  *
  */
 
-namespace \LS\Module\Asset\Filter;
+namespace LS\Module\Asset\Filter;
 
 /**
  * Description of FilterJsHTML
