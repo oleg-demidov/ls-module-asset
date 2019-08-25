@@ -23,35 +23,38 @@
 namespace \LS\Module\Asset\Filter;
 
 /**
- * Description of FilterJsHTML
+ * Description of FilterCssHTML
  *
  * @author oleg
  */
-class FilterJsHTML implements \Assetic\Filter\FilterInterface {
+class FilterCssHTML implements \Assetic\Filter\FilterInterface{
     
     protected $sTargetDir;
-
+    
     public function setTargetDir(string $sTargetDir) {
         $this->sTargetDir = $sTargetDir;
     }
 
-    public function filterLoad(\Assetic\Asset\AssetInterface $asset) {
-        
-    }
-    
     public function filterDump(\Assetic\Asset\AssetInterface $asset) {
         $aParams = $asset->getParams();
         
-        $element = new \DOMElement('script');
+        $element = new \DOMElement('link');
         
         foreach ($aParams['attr'] as $name => $value) {
             $element->setAttribute($name, $value);
         }
         
-        $element->setAttribute('src', $this->sTargetDir . $asset->getTargetPath());
+        $element->setAttribute('rel', 'stylesheet');
+        
+        $element->setAttribute('href', $this->sTargetDir . $asset->getTargetPath());
         
         $doc = new \DOMDocument();
         
         $asset->setContent($doc->saveHTML($element));
     }
+
+    public function filterLoad(\Assetic\Asset\AssetInterface $asset) {
+        
+    }
+
 }
