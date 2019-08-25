@@ -135,7 +135,7 @@ class AssetFactoryTest extends TestCase{
         
         $factory = clone $this->factory;
                 
-        $assets = $factory->createAssetType('JsAsset');
+        $assets = $factory->createAssetType('js');
         
         $this->assertTrue([ 'assetJsLocal', 'assetJsRemote', 'assetJsHTTP'] === $assets->getNames());
     }
@@ -144,7 +144,7 @@ class AssetFactoryTest extends TestCase{
         
         $factory = clone $this->factory;
                 
-        $assets = $factory->createAssetType('CssAsset');
+        $assets = $factory->createAssetType('css');
         
         $this->assertTrue([ 'assetCssLocal'] === $assets->getNames());
     }

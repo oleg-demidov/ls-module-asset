@@ -90,7 +90,7 @@ class WorkerMergeTest extends TestCase{
         
         $workerMerge = new \LS\Module\Asset\Worker\WorkerMerge();
         
-        $mergeManager = $workerMerge->work($factory->createAssetType("JsAsset"), $factory);
+        $mergeManager = $workerMerge->work($factory->createAssetType("js"), $factory);
         
         $this->assertTrue($mergeManager->getNames() === [
             'assetJsLocalassetJsHTTP',

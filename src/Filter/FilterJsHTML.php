@@ -23,11 +23,10 @@
 namespace LS\Module\Asset\Asset;
 
 /**
- * Description of AssetJs
+ * Description of FilterJsHTML
  *
  * @author oleg
  */
-class JsAsset extends AbstractAsset{
-
-
+class FilterJsHTML implements Filter {
+    //put your code here
 }
