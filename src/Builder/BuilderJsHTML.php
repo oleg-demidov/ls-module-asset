@@ -20,41 +20,40 @@
  *
  */
 
-namespace LS\Module\Asset\Filter;
+namespace LS\Module\Asset\Builder;
 
 /**
- * Description of FilterCssHTML
+ * Description of BuilderJsHTML
  *
  * @author oleg
  */
-class FilterCssHTML implements \Assetic\Filter\FilterInterface{
+class BuilderJsHTML implements BuilderInterface{
+
+    protected $document;
     
     protected $sTargetDir;
-    
-    public function setTargetDir(string $sTargetDir) {
+
+    public function __construct(string $sTargetDir) {
+        $this->document = new \DOMDocument();
         $this->sTargetDir = $sTargetDir;
     }
-
-    public function filterDump(\Assetic\Asset\AssetInterface $asset) {
+    
+    public function add(\Assetic\Asset\AssetInterface $asset) {
         $aParams = $asset->getParams();
-        
-        $element = new \DOMElement('link');
+                
+        $element = $this->document->createElement('script');
         
         foreach ($aParams['attr'] as $name => $value) {
             $element->setAttribute($name, $value);
         }
         
-        $element->setAttribute('rel', 'stylesheet');
+        $element->setAttribute('src', $this->sTargetDir . $asset->getTargetPath());
         
-        $element->setAttribute('href', $this->sTargetDir . $asset->getTargetPath());
-        
-        $doc = new \DOMDocument();
-        
-        $asset->setContent($doc->saveHTML($element));
+        $this->document->appendChild($element);
     }
 
-    public function filterLoad(\Assetic\Asset\AssetInterface $asset) {
-        
+    public function build(): string {
+        return $this->document->saveHTML();
     }
 
 }
