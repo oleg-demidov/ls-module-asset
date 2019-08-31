@@ -43,7 +43,7 @@ class ConfigParser {
         $this->filters = $filters;
     }
     
-    public function parse($aConfig) {
+    public function parse($aConfig) {        
         
         $assetManager = new AssetManager();
             
