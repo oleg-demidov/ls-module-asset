@@ -78,7 +78,7 @@ class AssetFactory {
     }
     
     public function createAssetSorted() {
-        $aSortAssets = $this->sortByTypes($this->assets);
+        $aSortAssets = $this->sortByTypes($this->assets); 
         
         $aResult = [];
         

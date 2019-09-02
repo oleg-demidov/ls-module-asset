@@ -63,7 +63,7 @@ class ConfigParser {
                 
                 $assetManager->set($sName, $asset);
             }
-        }
+        }//print_r($assetManager->getNames());
         
         return $assetManager;
     }

@@ -54,9 +54,11 @@ class WorkerMerge implements WorkerInterfase{
                 continue;
             }
             
-            $assetMerge->setType($asset->getType());
-            
-            $resultAssets->set($sNameMerge, $assetMerge);
+            if($sNameMerge !== ''){
+                $assetMerge->setType($asset->getType());
+
+                $resultAssets->set($this->generateShortName($sNameMerge), $assetMerge);
+            }
 
             $sNameMerge = '';
 
@@ -68,10 +70,14 @@ class WorkerMerge implements WorkerInterfase{
         if($sNameMerge !== ''){
             $assetMerge->setType($asset->getType());
             
-            $resultAssets->set($sNameMerge, $assetMerge);
+            $resultAssets->set($this->generateShortName($sNameMerge), $assetMerge);
         }
         
         return $resultAssets;
+    }
+    
+    protected function generateShortName($sNameLong) {
+        return substr(md5($sNameLong), 0, 5);
     }
     
 
