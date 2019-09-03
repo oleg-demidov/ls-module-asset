@@ -22,10 +22,13 @@
 
 use Assetic\Asset\AssetInterface;
 use Assetic\AssetManager;
+use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\JSMinFilter;
+use LS\Module\Asset\Asset\Asset;
 use LS\Module\Asset\ConfigParser;
 use LS\Module\Asset\FilterManager;
-use LS\Module\Asset\Worker\WorkerDepends;
+use LS\Module\Asset\Loader\FileLoader;
+use LS\Module\Asset\Loader\RemoteLoader;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,7 +42,7 @@ class ConfigParserTest extends TestCase{
         $filters = new FilterManager();
         
         $filters->set('js_min', new JSMinFilter());
-        $filters->set('css_min', new Assetic\Filter\CssMinFilter());
+        $filters->set('css_min', new CssMinFilter());
         
         return $filters;
     }
@@ -58,7 +61,7 @@ class ConfigParserTest extends TestCase{
                 ),
                 'assetJsRemote' => [
                     'file' => 'https://code.jquery.com/jquery-3.4.1.js',
-                    'loader' => "remote",
+                    'loader' => RemoteLoader::class,
                     'merge' => false,
                     'filters' => [
                         'js_min'
@@ -117,5 +120,35 @@ class ConfigParserTest extends TestCase{
         
         $this->assertTrue($am->get('assetJsLocal')->getParams() === $aTetParams, 
                 print_r($am->get('assetJsLocal')->getParams(), true) . print_r($aTetParams, true));
+        
+    }
+    
+    public function testParseOne() {
+        $am = $this->getAssetManager();
+                
+        $aTetParams = [
+            
+            "file" => "/home/oleg/Develop/pdd-fend/vendor/livestreet/asset/tests/assets/test.js",
+            "depends" => 
+                [
+                    'assetJsHTTP'
+                ],
+            "filters" => 
+                [
+                    'js_min'
+                ],
+
+            "loader" => "file",
+            "merge" => true,
+            "attr" => [ ]
+        ];
+        
+        $asset = new Asset(
+            new FileLoader(__DIR__.'/assets/test.js'),
+            [new JSMinFilter()],
+            $aTetParams);
+        $asset->setType('js');
+        
+        $this->assertTrue($am->get('assetJsLocal') == $asset, print_r($am->get('assetJsLocal'), true). print_r($asset, true));
     }
 }

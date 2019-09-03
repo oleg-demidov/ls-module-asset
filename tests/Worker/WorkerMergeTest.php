@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
@@ -21,6 +22,14 @@
  */
 
 namespace PHPUnit\Framework;
+
+use Assetic\Filter\CssMinFilter;
+use Assetic\Filter\JSMinFilter;
+use LS\Module\Asset\AssetFactory;
+use LS\Module\Asset\ConfigParser;
+use LS\Module\Asset\FilterManager;
+use LS\Module\Asset\Worker\WorkerMerge;
+use SebastianBergmann\CodeCoverage\TestCase;
 
 /**
  * Description of WorkerMergeTest
@@ -65,19 +74,19 @@ class WorkerMergeTest extends TestCase{
             ]
         ];
         
-        $filters = new \LS\Module\Asset\FilterManager();
+        $filters = new FilterManager();
         
-        $filters->set('js_min', new \Assetic\Filter\JSMinFilter()); 
-        $filters->set('css_min', new \Assetic\Filter\CssMinFilter());
+        $filters->set('js_min', new JSMinFilter()); 
+        $filters->set('css_min', new CssMinFilter());
                 
-        $parser = new \LS\Module\Asset\ConfigParser($filters);
+        $parser = new ConfigParser($filters);
         
         $config = [
             'merge' => true,
             'filters' => []
         ];
         
-        $this->factory = new \LS\Module\Asset\AssetFactory($config);
+        $this->factory = new AssetFactory($config);
                 
         $this->factory->setAssetManager($parser->parse($assets));
         
@@ -88,12 +97,16 @@ class WorkerMergeTest extends TestCase{
     public function testWork() {
         $factory = clone $this->factory;
         
-        $workerMerge = new \LS\Module\Asset\Worker\WorkerMerge();
+        $workerMerge = new WorkerMerge();
         
         $mergeManager = $workerMerge->work($factory->createAssetType("js"), $factory);
         
-        $this->assertTrue($mergeManager->getNames() === [
-            'assetJsLocalassetJsHTTP',
-            'assetJsRemote'], print_r($mergeManager->getNames(), true));
+        $aTest = [
+            substr(md5('assetJsLocalassetJsHTTP'), 0, 5),
+            'assetJsRemote'
+        ];
+        
+        $this->assertTrue($mergeManager->getNames() == $aTest, 
+                print_r($mergeManager->getNames(), true). print_r($aTest, true));
     }
 }

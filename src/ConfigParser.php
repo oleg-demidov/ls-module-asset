@@ -22,7 +22,7 @@
 
 namespace LS\Module\Asset;
 
-use Assetic\FilterManager;
+use LS\Module\Asset\FilterManager;
 use LS\Module\Asset\Asset\Asset;
 use LS\Module\Asset\Loader\HttpLoader;
 use LS\Module\Asset\Loader\LoaderInterface;
@@ -63,7 +63,7 @@ class ConfigParser {
                 
                 $assetManager->set($sName, $asset);
             }
-        }//print_r($assetManager->getNames());
+        }
         
         return $assetManager;
     }
@@ -84,14 +84,12 @@ class ConfigParser {
         if (false !== strpos($aAsset['file'], '://') || 0 === strpos($aAsset['file'], '//')) {
             return new HttpLoader($aAsset['file']);
         }
-        
-        $sClass = 'LS\\Module\\Asset\\Loader\\' . ucfirst($aAsset['loader']) . 'Loader';
-        
-        if(!class_exists($sClass)){
-            throw new OutOfBoundsException("Class loader {$sClass} not found");
+                
+        if(!class_exists($aAsset['loader'])){
+            throw new OutOfBoundsException("Class loader {$aAsset['loader']} not found");
         }
 
-        return new $sClass($aAsset['file']);
+        return new $aAsset['loader']($aAsset['file']);
     }
     
     /**
@@ -125,7 +123,7 @@ class ConfigParser {
             
             $aAssetNew['file'] = (isset($aAssetNew['file']) ) ? $aAssetNew['file'] : '';
             $aAssetNew['filters'] = (isset($aAssetNew['filters']) ) ? $aAssetNew['filters'] : [];
-            $aAssetNew['loader'] = (isset($aAssetNew['loader']) ) ? $aAssetNew['loader'] : "file";
+            $aAssetNew['loader'] = (isset($aAssetNew['loader']) ) ? $aAssetNew['loader'] : Loader\FileLoader::class;
             $aAssetNew['merge'] = (isset($aAssetNew['merge']) and !$aAssetNew['merge']) ? false : true;
             $aAssetNew['attr'] = (isset($aAssetNew['attr']) and is_array($aAssetNew['attr'])) ? $aAssetNew['attr'] : [];
             $aAssetNew['depends'] = (isset($aAssetNew['depends'])) ? $aAssetNew['depends']  : [];
