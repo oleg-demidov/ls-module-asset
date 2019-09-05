@@ -33,11 +33,19 @@ class WorkerTargetPath implements WorkerInterfase{
         
         foreach ($workingAssets->getNames() as $name) {
             $asset = $workingAssets->get($name);
+            /*
+             * Получаем расширение
+             */
+            preg_match('/.+\.([\w]{1,5})([^\.]+)?$/', $asset->getSourcePath(), $aMatches);
+            /*
+             * Коли нет берем тип в качестве расширения
+             */
+            $sExtention =isset($aMatches[1]) ? $aMatches[1] : $asset->getType();
             
             $asset->setTargetPath(
                 $asset->getType() . '/' . 
                 $name . '.' . 
-                pathinfo($asset->getSourcePath(), PATHINFO_EXTENSION)
+                $sExtention
             );
         }
         

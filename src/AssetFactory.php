@@ -167,8 +167,9 @@ class AssetFactory {
         return $this->aParams;
     }
     
-    public function generateAssetKey( $factory)
+    public function generateKey( $factory = null)
     {
+        $factory = $factory ?: $this;
         return substr(sha1(serialize($factory)), 0, 7);
     }
 

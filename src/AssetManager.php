@@ -55,4 +55,10 @@ class AssetManager extends \Assetic\AssetManager{
             $this->set($key, $asset);
         }        
     }
+    
+    public function __clone() {
+        foreach ($this->getNames() as $name) {
+            $this->set($name, clone $this->get($name));
+        }
+    }
 }

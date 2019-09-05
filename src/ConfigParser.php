@@ -80,10 +80,6 @@ class ConfigParser {
         if(!$aAsset['loader']){
             return null;
         }
-        
-        if (false !== strpos($aAsset['file'], '://') || 0 === strpos($aAsset['file'], '//')) {
-            return new HttpLoader($aAsset['file']);
-        }
                 
         if(!class_exists($aAsset['loader'])){
             throw new OutOfBoundsException("Class loader {$aAsset['loader']} not found");

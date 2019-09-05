@@ -49,4 +49,11 @@ class FilterManager extends \Assetic\FilterManager{
         
         return parent::get($alias);
     }
+    
+     
+    public function __clone() {
+        foreach ($this->getNames() as $name) {
+            $this->set($name, clone $this->get($name));
+        }
+    }
 }

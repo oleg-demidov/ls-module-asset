@@ -56,8 +56,6 @@ class Asset extends BaseAsset{
 
     public function load(\Assetic\Filter\FilterInterface $additionalFilter = null) {
         $this->doLoad($this->loader->load(), $additionalFilter);
-        
-        $this->setTargetPath($this->loader->getSourcePath());
     }
     
     
