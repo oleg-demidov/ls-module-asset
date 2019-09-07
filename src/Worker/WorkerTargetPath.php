@@ -42,8 +42,11 @@ class WorkerTargetPath implements WorkerInterfase{
              */
             $sExtention =isset($aMatches[1]) ? $aMatches[1] : $asset->getType();
             
+            $key = $factory->generateKey($asset);
+            
             $asset->setTargetPath(
                 $asset->getType() . '/' . 
+                $key .
                 $name . '.' . 
                 $sExtention
             );

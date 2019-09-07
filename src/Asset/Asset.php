@@ -33,8 +33,7 @@ class Asset extends BaseAsset{
 
     use AssetTrait;
     
-    protected $loader;
-    
+    protected $loader;    
     
     /**
      * 

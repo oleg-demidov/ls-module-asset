@@ -55,7 +55,7 @@ class BuilderJsHTML implements BuilderInterface{
     }
 
     public function build(): string {
-        return preg_replace('/^.+\n/', '', $this->document->saveXML());
+        return  $this->document->saveHTML();
     }
 
 }
