@@ -35,6 +35,8 @@ class BuilderCssHTML implements BuilderInterface{
 
     public function __construct(string $sTargetDir) {
         $this->document = new \DOMDocument();
+        $this->document->formatOutput = true;
+        
         $this->sTargetDir = $sTargetDir;
     }
     
@@ -54,8 +56,9 @@ class BuilderCssHTML implements BuilderInterface{
         $this->document->appendChild($element);
     }
 
-    public function build(): string {
-        return $this->document->saveHTML();
+    public function build(): string {       
+        
+        return preg_replace('/^.+\n/', '', $this->document->saveXML());
     }
 
 }
