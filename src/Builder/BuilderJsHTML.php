@@ -49,7 +49,12 @@ class BuilderJsHTML implements BuilderInterface{
             $element->setAttribute($name, $value);
         }
         
-        $element->setAttribute('src', $this->sTargetDir . '/' . $asset->getTargetPath());
+        /*
+         * Путь до ресурса должен сформировать загргузчик
+         */
+        $sResultPath = $asset->loader->getResultPath($this->sTargetDir, $asset->getTargetPath());
+        
+        $element->setAttribute('src', $sResultPath);
         
         $this->document->appendChild($element);
     }

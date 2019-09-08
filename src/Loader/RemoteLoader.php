@@ -22,7 +22,6 @@
 
 namespace LS\Module\Asset\Loader;
 use LS\Module\Asset\Loader\LoaderInterface;
-use \Assetic\Util\VarUtils;
 
 /**
  * Description of FileLoader
@@ -37,12 +36,23 @@ class RemoteLoader implements LoaderInterface{
         $this->sSourcePath = $sPath;
     }
 
-    public function load() {
+    public function load(\LS\Module\Asset\Asset\Asset $asset) {
+        $asset->setTargetPath($this->sSourcePath);
+        
         return null;
     }
 
     public function getLastModified() {
         return null;
+    }
+
+     public function getResultPath(string $sDir, string $sTargetPath) {
+        return $this->sSourcePath;
+    }
+
+    public function prepareParams(array &$aParams) {
+        $aParams['merge'] = false;
+        $aParams['public'] = false;
     }
 
 }

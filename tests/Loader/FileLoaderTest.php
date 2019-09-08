@@ -31,7 +31,9 @@ class FileLoaderTest extends \PHPUnit\Framework\TestCase{
         
         $loader = new \LS\Module\Asset\Loader\FileLoader(__DIR__.'/test.js');
         
-        $string = $loader->load();
+        $asset = new \LS\Module\Asset\Asset\Asset($loader, []);
+        
+        $string = $loader->load($asset);
         
         $this->assertStringStartsWith('Testscript', $string);
         

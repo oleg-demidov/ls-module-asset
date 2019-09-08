@@ -32,7 +32,7 @@ interface LoaderInterface {
     /**
      * 
      */
-    public function load();
+    public function load(\LS\Module\Asset\Asset\Asset $asset);
     
     /**
      * 
@@ -44,5 +44,12 @@ interface LoaderInterface {
     public function getSourcePath();
     
     public function getLastModified();
+    
+    public function getResultPath(string $sDir, string $sTargetPath);
+    
+    /**
+     * Обработать параметры ресурса зависимые от зарузчика
+     */
+    public function prepareParams(array &$aParams);
    
 }

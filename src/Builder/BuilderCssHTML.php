@@ -50,8 +50,12 @@ class BuilderCssHTML implements BuilderInterface{
         }
         
         $element->setAttribute('rel', 'stylesheet');
+        /*
+         * Путь до ресурса должен сформировать загргузчик
+         */
+        $sResultPath = $asset->loader->getResultPath($this->sTargetDir, $asset->getTargetPath());
         
-        $element->setAttribute('href', $this->sTargetDir . '/' . $asset->getTargetPath());
+        $element->setAttribute('href', $sResultPath);
         
         $this->document->appendChild($element);
     }

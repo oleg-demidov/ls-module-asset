@@ -32,7 +32,9 @@ class HTTPLoaderTest extends TestCase{
     public function testLoad() {
         $loader = new \LS\Module\Asset\Loader\HttpLoader('https://code.jquery.com/jquery-3.3.1.slim.min.js');
         
-        $string = $loader->load();
+        $asset = new \LS\Module\Asset\Asset\Asset($loader, []);
+        
+        $string = $loader->load($asset);
         
         $this->assertStringStartsWith($string, file_get_contents(__DIR__ . '/jquery-3.3.1.slim.min.js'));
     }

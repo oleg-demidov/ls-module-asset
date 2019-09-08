@@ -33,7 +33,7 @@ class Asset extends BaseAsset{
 
     use AssetTrait;
     
-    protected $loader;    
+    public $loader;    
     
     /**
      * 
@@ -42,9 +42,11 @@ class Asset extends BaseAsset{
      * @param array $aParams
      * @param array $aVars
      */
-    public function __construct(LoaderInterface $loader, array $aFilters, array $aParams = [], array $aVars = []) {
+    public function __construct(LoaderInterface $loader, array $aFilters = [], array $aParams = [], array $aVars = []) {
         $this->loader = $loader;
         $this->aParams = $aParams;
+        
+        $this->loader->prepareParams($this->aParams);
         
         parent::__construct($aFilters, null, $this->loader->getSourcePath(), $aVars);
     }
@@ -54,7 +56,7 @@ class Asset extends BaseAsset{
     }
 
     public function load(\Assetic\Filter\FilterInterface $additionalFilter = null) {
-        $this->doLoad($this->loader->load(), $additionalFilter);
+        $this->doLoad($this->loader->load($this), $additionalFilter);
     }
     
     

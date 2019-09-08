@@ -22,7 +22,6 @@
 
 namespace LS\Module\Asset\Loader;
 use LS\Module\Asset\Loader\LoaderInterface;
-use \Assetic\Util\VarUtils;
 
 /**
  * Description of FileLoader
@@ -37,7 +36,7 @@ class FileLoader implements LoaderInterface{
         $this->sSourcePath = $sSourcePath;
     }
 
-    public function load() {
+    public function load(\LS\Module\Asset\Asset\Asset $asset) {
 
         if (!is_file($this->sSourcePath)) {
             throw new \UnderflowException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
@@ -55,5 +54,12 @@ class FileLoader implements LoaderInterface{
         return filemtime($this->sSourcePath);
     }
 
+    public function getResultPath(string $sDir, string $sTargetPath) {
+        return $sDir. '/' . $sTargetPath;
+    }
+
+    public function prepareParams(array &$aParams) {
+        
+    }
 
 }

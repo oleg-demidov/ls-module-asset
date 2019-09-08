@@ -45,7 +45,7 @@ class HttpLoader implements LoaderInterface{
         
     }
     
-    public function load() {
+    public function load(\LS\Module\Asset\Asset\Asset $asset) {
         $content = @file_get_contents($this->sPath);
 
         if (false === $content) {
@@ -55,5 +55,12 @@ class HttpLoader implements LoaderInterface{
         return $content;
     }
 
+    public function getResultPath(string $sDir, string $sTargetPath) {
+        return $sDir. '/' . $sTargetPath;
+    }
+
+    public function prepareParams(array &$aParams) {
+        
+    }
 
 }

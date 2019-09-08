@@ -27,7 +27,6 @@ class AssetTest extends TestCase{
                 
         $this->asset->load();
         
-        $this->assertTrue($this->asset->getTargetPath() === dirname(__DIR__).'/Loader/test.js');
         
         $this->assertStringStartsWith('Testscript', $this->asset->getContent());
     }

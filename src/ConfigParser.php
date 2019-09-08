@@ -38,8 +38,20 @@ class ConfigParser {
     
     protected $filters;
     
-    public function __construct(FilterManager $filters = null) {
+    private $aAssetDefault = [
+        'file' =>  '',
+        'filters' => [],
+        'loader' => Loader\FileLoader::class,
+        'merge' => true,
+        'public' => true,
+        'attr' => [],
+        'depends' => []
+    ];
+
+    public function __construct(FilterManager $filters = null, array $aAssetDefault = []) {
         $this->filters = $filters;
+        
+        $this->aAssetDefault = array_merge_recursive( $this->aAssetDefault, $aAssetDefault);
     }
     
     public function parse($aConfig) {        
@@ -47,8 +59,8 @@ class ConfigParser {
         $assetManager = new AssetManager();
             
         foreach ($aConfig as $sType => $aAssets) { 
-            
-            $this->normalizeAssetConfig($aAssets);
+
+            $this->normalizeAssetConfig($aAssets, $this->aAssetDefault);            
             
             foreach ($aAssets as $sName => $mAsset) {
                 
@@ -93,11 +105,10 @@ class ConfigParser {
      * 
      * @param array $aAssets
      */
-    public static function normalizeAssetConfig(array &$aAssets){
-
-        
+    public static function normalizeAssetConfig(array &$aAssets, array $aAssetDefault){
+                
         foreach ($aAssets as $sName => $mAsset) {
-            $aAssetNew = $mAsset;
+            $aAssetNew = $aAssetDefault;
             $sNameNew = $sName;
 
             if(is_int($sName)){
@@ -105,23 +116,14 @@ class ConfigParser {
             }
 
             if(is_string($mAsset)){
-                $aAssetNew = [
-                    'file' => $mAsset
-                ];
+                $aAssetNew['file'] =  $mAsset;
             }
 
-            if(isset($mAsset['name'])){
-                $sNameNew = $mAsset['name'];
+            if(is_array($mAsset)){                
+                $aAssetNew = array_merge_recursive($aAssetNew, $mAsset);
             }
 
             unset($aAssets[$sName]);            
-            
-            $aAssetNew['file'] = (isset($aAssetNew['file']) ) ? $aAssetNew['file'] : '';
-            $aAssetNew['filters'] = (isset($aAssetNew['filters']) ) ? $aAssetNew['filters'] : [];
-            $aAssetNew['loader'] = (isset($aAssetNew['loader']) ) ? $aAssetNew['loader'] : Loader\FileLoader::class;
-            $aAssetNew['merge'] = (isset($aAssetNew['merge']) and !$aAssetNew['merge']) ? false : true;
-            $aAssetNew['attr'] = (isset($aAssetNew['attr']) and is_array($aAssetNew['attr'])) ? $aAssetNew['attr'] : [];
-            $aAssetNew['depends'] = (isset($aAssetNew['depends'])) ? $aAssetNew['depends']  : [];
             
             $aAssets[$sNameNew] = $aAssetNew;
         }
