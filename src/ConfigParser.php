@@ -27,7 +27,6 @@ use LS\Module\Asset\Asset\Asset;
 use LS\Module\Asset\Loader\HttpLoader;
 use LS\Module\Asset\Loader\LoaderInterface;
 use LS\Module\Asset\ParserException;
-use LS\Module\Asset\Worker\WorkerDepends;
 use OutOfBoundsException;
 
 /**

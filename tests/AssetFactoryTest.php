@@ -50,7 +50,7 @@ class AssetFactoryTest extends TestCase{
                 ),
                 'assetJsRemote' => [
                     'file' => 'https://code.jquery.com/jquery-3.4.1.js',
-                    'loader' => "remote",
+                    'loader' => LS\Module\Asset\Loader\RemoteLoader::class,
                     'merge' => false,
                     'filters' => [
                         'js_min'

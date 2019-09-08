@@ -29,7 +29,6 @@ use LS\Module\Asset\AssetFactory;
 use LS\Module\Asset\ConfigParser;
 use LS\Module\Asset\FilterManager;
 use LS\Module\Asset\Worker\WorkerMerge;
-use SebastianBergmann\CodeCoverage\TestCase;
 
 /**
  * Description of WorkerMergeTest

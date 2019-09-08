@@ -113,7 +113,7 @@ class ConfigParserTest extends TestCase{
                     'js_min'
                 ],
 
-            "loader" => "file",
+            "loader" => FileLoader::class,
             "merge" => true,
             "attr" => [ ]
         ];
