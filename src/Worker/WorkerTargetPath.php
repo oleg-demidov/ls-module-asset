@@ -46,8 +46,8 @@ class WorkerTargetPath implements WorkerInterfase{
             
             $asset->setTargetPath(
                 $asset->getType() . '/' . 
-                $key .
-                $name . '.' . 
+                $name .  '_' .
+                $key . '.' .
                 $sExtention
             );
         }

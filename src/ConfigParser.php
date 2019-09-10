@@ -62,7 +62,7 @@ class ConfigParser {
 
             $this->normalizeAssetConfig($aAssets, $this->aAssetDefault);            
             
-            foreach ($aAssets as $sName => $mAsset) {
+            foreach ($aAssets as $sName => $mAsset) { 
                 
                 $asset = new Asset(
                     $this->getLoaderFromAssetConfig($mAsset),
@@ -89,7 +89,9 @@ class ConfigParser {
      */
     public static function getLoaderFromAssetConfig(array $aAsset) {
         if(!$aAsset['loader']){
-            return null;
+            if(filter_var($aAsset['file'], FILTER_SANITIZE_URL)){
+                return new HttpLoader($aAsset['file']);
+            }
         }
                 
         if(!class_exists($aAsset['loader'])){
@@ -120,7 +122,7 @@ class ConfigParser {
             }
 
             if(is_array($mAsset)){                
-                $aAssetNew = array_merge_recursive($aAssetNew, $mAsset);
+                $aAssetNew = array_merge($aAssetNew, $mAsset);
             }
 
             unset($aAssets[$sName]);            

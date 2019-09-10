@@ -33,6 +33,8 @@ trait AssetTrait{
     
     protected $aParams = [];
     
+    public $loader;
+    
     public function setType(string $type) {
         $this->type = $type;
     }

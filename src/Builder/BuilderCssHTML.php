@@ -32,10 +32,16 @@ class BuilderCssHTML implements BuilderInterface{
     protected $document;
     
     protected $sTargetDir;
+    
+    protected $aDefaultAttr;
+    
+    use BuilderTrait;
 
-    public function __construct(string $sTargetDir) {
+    public function __construct(string $sTargetDir, array $aDefaultAttr = []) {
         $this->document = new \DOMDocument();
         $this->document->formatOutput = true;
+        
+        $this->aDefaultAttr = $aDefaultAttr;
         
         $this->sTargetDir = $sTargetDir;
     }
@@ -45,8 +51,10 @@ class BuilderCssHTML implements BuilderInterface{
                 
         $element = $this->document->createElement('link');
         
-        foreach ($aParams['attr'] as $name => $value) {
-            $element->setAttribute($name, $value);
+        $aAttr = array_merge($this->aDefaultAttr, $aParams['attr']);
+        
+        foreach ($aAttr as $name => $value) {
+            $this->setAttribute($element, $name, $value);
         }
         
         $element->setAttribute('rel', 'stylesheet');

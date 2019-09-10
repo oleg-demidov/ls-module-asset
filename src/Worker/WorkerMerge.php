@@ -47,7 +47,7 @@ class WorkerMerge implements WorkerInterfase{
                 
                 $assetMerge->add($asset);
                 
-                $assetMerge->setParams(['attr' => $asset->getParams()['attr']]);
+                $assetMerge->setParams( $asset->getParams() );
                 
                 $sNameMerge .= $name;
                 
@@ -56,6 +56,8 @@ class WorkerMerge implements WorkerInterfase{
             
             if($sNameMerge !== ''){
                 $assetMerge->setType($asset->getType());
+                
+                $assetMerge->loader = new \LS\Module\Asset\Loader\FileLoader('');
 
                 $resultAssets->set($this->generateShortName($sNameMerge), $assetMerge);
             }
@@ -70,6 +72,8 @@ class WorkerMerge implements WorkerInterfase{
         if($sNameMerge !== ''){
             $assetMerge->setType($asset->getType());
             
+            $assetMerge->loader = new \LS\Module\Asset\Loader\FileLoader('');
+            
             $resultAssets->set($this->generateShortName($sNameMerge), $assetMerge);
         }
         
@@ -77,7 +81,7 @@ class WorkerMerge implements WorkerInterfase{
     }
     
     protected function generateShortName($sNameLong) {
-        return substr(md5($sNameLong), 0, 5);
+        return 'merge_' . substr(md5($sNameLong), 0, 5);
     }
     
 

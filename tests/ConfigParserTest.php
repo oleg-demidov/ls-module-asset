@@ -59,6 +59,8 @@ class ConfigParserTest extends TestCase{
                         'js_min'
                     ]
                 ),
+                'assesJsShort' => __DIR__.'/assets/test.js',
+                __DIR__.'/assets/test.js',
                 'assetJsRemote' => [
                     'file' => 'https://code.jquery.com/jquery-3.4.1.js',
                     'loader' => RemoteLoader::class,
@@ -95,7 +97,8 @@ class ConfigParserTest extends TestCase{
         
         $this->assertInstanceOf(AssetManager::class, $am);      
         
-        $this->assertTrue(['assetJsLocal', 'assetJsRemote', 'assetJsHTTP', 'assetCssLocal'] === $am->getNames());
+        $this->assertTrue(['assetJsLocal', 'assesJsShort', 'test', 'assetJsRemote', 'assetJsHTTP', 'assetCssLocal'] === $am->getNames(), 
+                print_r($am->getNames(), true));
         
         foreach ($am->getNames() as $aName) {
             $this->assertInstanceOf(AssetInterface::class, $am->get($aName));
@@ -104,10 +107,6 @@ class ConfigParserTest extends TestCase{
         $aTetParams = [
             
             "file" => "/home/oleg/Develop/pdd-fend/vendor/livestreet/asset/tests/assets/test.js",
-            "depends" => 
-                [
-                    'assetJsHTTP'
-                ],
             "filters" => 
                 [
                     'js_min'
@@ -116,7 +115,11 @@ class ConfigParserTest extends TestCase{
             "loader" => FileLoader::class,
             "merge" => true,
             "public" => true,
-            "attr" => [ ]
+            "attr" => [ 'defer' => true ],
+            "depends" => 
+                [
+                    'assetJsHTTP'
+                ]
         ];
         
         $this->assertTrue($am->get('assetJsLocal')->getParams() === $aTetParams, 
@@ -142,7 +145,7 @@ class ConfigParserTest extends TestCase{
             "loader" => FileLoader::class,
             "merge" => true,
             "public" => true,
-            "attr" => [ ]
+            "attr" => [ 'defer' => true ]
         ];
         
         $asset = new Asset(

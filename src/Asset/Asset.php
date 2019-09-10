@@ -33,8 +33,6 @@ class Asset extends BaseAsset{
 
     use AssetTrait;
     
-    public $loader;    
-    
     /**
      * 
      * @param LoaderInterface $loader
