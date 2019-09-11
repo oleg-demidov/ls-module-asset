@@ -42,6 +42,7 @@ class ConfigParser {
         'file' =>  '',
         'filters' => [],
         'loader' => Loader\FileLoader::class,
+        'remote' => false,
         'merge' => true,
         'public' => true,
         'attr' => [],
@@ -93,7 +94,7 @@ class ConfigParser {
                 return new HttpLoader($aAsset['file']);
             }
         }
-                
+                        
         if(!class_exists($aAsset['loader'])){
             throw new OutOfBoundsException("Class loader {$aAsset['loader']} not found");
         }
