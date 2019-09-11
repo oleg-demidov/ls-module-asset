@@ -45,6 +45,7 @@ class ConfigParser {
         'remote' => false,
         'merge' => true,
         'public' => true,
+        'requireDir' => null,
         'attr' => [],
         'depends' => []
     ];

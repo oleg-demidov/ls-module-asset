@@ -44,12 +44,15 @@ class WorkerTargetPath implements WorkerInterfase{
             
             $key = $factory->generateKey($asset);
             
-            $asset->setTargetPath(
-                $asset->getType() . '/' . 
-                $name .  '_' .
-                $key . '.' .
-                $sExtention
-            );
+            $sTargetPath = $asset->getType() . '/' ;
+            
+            if($asset->getParamsOne('requireDir')){
+                $sTargetPath .= $name . '/';
+            }
+            
+            $sTargetPath .= $name .  '_' . $key . '.' . $sExtention;
+            
+            $asset->setTargetPath( $sTargetPath );
         }
         
         return $workingAssets;
