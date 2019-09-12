@@ -42,10 +42,10 @@ class ConfigParser {
         'file' =>  '',
         'filters' => [],
         'loader' => Loader\FileLoader::class,
-        'remote' => false,
+//        'remote' => false,
         'merge' => true,
         'public' => true,
-        'requireDir' => null,
+        'publicDir' => null,
         'attr' => [],
         'depends' => []
     ];

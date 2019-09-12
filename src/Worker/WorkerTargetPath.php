@@ -46,7 +46,7 @@ class WorkerTargetPath implements WorkerInterfase{
             
             $sTargetPath = $asset->getType() . '/' ;
             
-            if($asset->getParamsOne('requireDir')){
+            if($asset->getParamsOne('publicDir')){
                 $sTargetPath .= $name . '/';
             }
             

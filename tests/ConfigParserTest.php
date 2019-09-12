@@ -115,7 +115,8 @@ class ConfigParserTest extends TestCase{
             "loader" => FileLoader::class,
             "merge" => true,
             "public" => true,
-            "attr" => [ 'defer' => true ],
+            "publicDir" => null,
+            "attr" => [  ],
             "depends" => 
                 [
                     'assetJsHTTP'
@@ -145,7 +146,8 @@ class ConfigParserTest extends TestCase{
             "loader" => FileLoader::class,
             "merge" => true,
             "public" => true,
-            "attr" => [ 'defer' => true ]
+             "publicDir" => null,
+            "attr" => [ ]
         ];
         
         $asset = new Asset(

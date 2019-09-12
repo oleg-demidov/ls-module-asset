@@ -101,7 +101,7 @@ class WorkerMergeTest extends TestCase{
         $mergeManager = $workerMerge->work($factory->createAssetType("js"), $factory);
         
         $aTest = [
-            substr(md5('assetJsLocalassetJsHTTP'), 0, 5),
+            'merge_' . substr(md5('assetJsLocalassetJsHTTP'), 0, 5),
             'assetJsRemote'
         ];
         
