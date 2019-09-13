@@ -57,5 +57,4 @@ class Asset extends BaseAsset{
         $this->doLoad($this->loader->load($this), $additionalFilter);
     }
     
-    
 }

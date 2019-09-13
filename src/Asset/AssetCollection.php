@@ -39,6 +39,10 @@ class AssetCollection extends \Assetic\Asset\AssetCollection{
             return true;
         }
         
+        if($asset->getParamsOne('publicDir') !== $this->getParamsOne('publicDir')){
+            return false;
+        }
+        
         if($asset->getParamsOne('attr') !== $this->getParamsOne('attr')){
             return false;
         }
