@@ -39,7 +39,8 @@ class FileLoader implements LoaderInterface{
     public function load(\LS\Module\Asset\Asset\Asset $asset) {
 
         if (!is_file($this->sSourcePath)) {
-            throw new \UnderflowException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+            throw new \UnderflowException(sprintf('The source file "%s" does not exist in asset ' . $asset->getTargetPath(), 
+                    $this->sSourcePath));
         }
                 
         return file_get_contents($this->sSourcePath);
@@ -48,7 +49,7 @@ class FileLoader implements LoaderInterface{
     public function getLastModified() {
 
         if (!is_file($this->sSourcePath)) {
-            throw new \UnderflowException(sprintf('The source file "%s" does not exist.', $this->sSourcePath));
+            throw new \UnderflowException(sprintf('The source file "%s" does not exist', $this->sSourcePath));
         }
 
         return filemtime($this->sSourcePath);
